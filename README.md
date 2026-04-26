@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # NER Filter — Filtrado Semiautomático de Entidades Nombradas
 
 Aplicación web modular con spaCy **large models** para extraer, revisar
@@ -163,3 +164,6 @@ print(proc.stats())
 ```
 
 `accepted`: `null` = pendiente · `true` = aceptada · `false` = rechazada
+=======
+
+>>>>>>> 281421ed6855d891797bbb84537c653ef0cdf150
