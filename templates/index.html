@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NER Filter — Entidades Nombradas</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+    :root {
+      --bg: #0e0f11;
+      --surface: #16181c;
+      --surface2: #1e2026;
+      --border: #2a2d35;
+      --accent: #4ade80;
+      --accent-dim: rgba(74, 222, 128, 0.12);
+      --reject: #f87171;
+      --reject-dim: rgba(248, 113, 113, 0.12);
+      --pending: #facc15;
+      --pending-dim: rgba(250, 204, 21, 0.1);
+      --text: #e2e4ea;
+      --text-muted: #6b7280;
+      --text-dim: #9ca3af;
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'IBM Plex Sans', sans-serif;
+      --radius: 6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 28px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .logo {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      background: var(--accent-dim);
+      border: 1px solid rgba(74,222,128,0.25);
+      padding: 4px 10px;
+      border-radius: var(--radius);
+    }
+    header h1 {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-dim);
+    }
+    header h1 span { color: var(--text); }
+
+    /* ── Layout ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 0;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ── Left panel ── */
+    .panel-left {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .section-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Model selector */
+    .model-select {
+      font-family: var(--mono);
+      font-size: 12px;
+      background: var(--surface2);
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 4px 8px;
+      cursor: pointer;
+      outline: none;
+    }
+    .model-select:focus { border-color: var(--accent); }
+
+    /* Textarea */
+    .textarea-wrap {
+      flex: 1;
+      padding: 20px;
+      overflow: auto;
+    }
+    textarea {
+      width: 100%;
+      height: 100%;
+      min-height: 180px;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14.5px;
+      line-height: 1.8;
+      resize: none;
+      outline: none;
+    }
+    textarea::placeholder { color: var(--text-muted); }
+
+    /* Analyze button */
+    .analyze-bar {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      background: var(--surface);
+    }
+    .btn {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      border: none;
+      border-radius: var(--radius);
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+    .btn-primary:hover { background: #86efac; }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--text-muted); }
+
+    /* Highlighted text */
+    .highlighted-section {
+      padding: 20px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      max-height: 260px;
+      overflow-y: auto;
+    }
+    .highlighted-text {
+      font-family: var(--sans);
+      font-size: 14.5px;
+      line-height: 1.9;
+      color: var(--text-dim);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .ent-mark {
+      border-radius: 3px;
+      padding: 1px 4px;
+      font-weight: 500;
+      font-size: 13.5px;
+      cursor: pointer;
+      transition: filter 0.15s;
+      position: relative;
+    }
+    .ent-mark:hover { filter: brightness(1.25); }
+    .ent-mark .label-tag {
+      font-family: var(--mono);
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      vertical-align: super;
+      margin-left: 3px;
+      opacity: 0.8;
+    }
+    .ent-accepted { background: var(--accent-dim); color: var(--accent); outline: 1px solid rgba(74,222,128,0.3); }
+    .ent-rejected { background: var(--reject-dim); color: var(--reject); text-decoration: line-through; opacity: 0.6; }
+    .ent-pending  { background: var(--pending-dim); color: var(--pending); outline: 1px solid rgba(250,204,21,0.25); }
+
+    /* ── Right panel ── */
+    .panel-right {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .stat {
+      flex: 1;
+      padding: 12px 8px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-value {
+      font-family: var(--mono);
+      font-size: 22px;
+      font-weight: 600;
+      display: block;
+    }
+    .stat-label {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .stat-total .stat-value  { color: var(--text); }
+    .stat-accept .stat-value { color: var(--accent); }
+    .stat-reject .stat-value { color: var(--reject); }
+    .stat-pending .stat-value{ color: var(--pending); }
+
+    /* Bulk actions */
+    .bulk-bar {
+      display: flex;
+      gap: 8px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .btn-small {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      border: none;
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-accept-all { background: var(--accent-dim); color: var(--accent); }
+    .btn-accept-all:hover { background: rgba(74,222,128,0.25); }
+    .btn-reject-all { background: var(--reject-dim); color: var(--reject); }
+    .btn-reject-all:hover { background: rgba(248,113,113,0.25); }
+    .btn-reset-all  { background: var(--surface2); color: var(--text-muted); }
+    .btn-reset-all:hover { color: var(--text); }
+
+    /* Entity list */
+    .entity-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .entity-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .entity-item:hover { background: var(--surface2); }
+    .entity-item:last-child { border-bottom: none; }
+
+    .entity-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      min-width: 44px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .entity-text {
+      flex: 1;
+      font-size: 13.5px;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .entity-pos {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    /* Action buttons per entity */
+    .entity-actions {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .action-btn {
+      width: 26px;
+      height: 26px;
+      border: none;
+      border-radius: 4px;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .action-accept { background: var(--accent-dim); color: var(--accent); }
+    .action-accept:hover, .action-accept.active { background: rgba(74,222,128,0.3); }
+    .action-reject { background: var(--reject-dim); color: var(--reject); }
+    .action-reject:hover, .action-reject.active { background: rgba(248,113,113,0.3); }
+
+    /* Status dot */
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot-accepted { background: var(--accent); }
+    .dot-rejected { background: var(--reject); }
+    .dot-pending  { background: var(--pending); opacity: 0.6; }
+
+    /* Export bar */
+    .export-bar {
+      padding: 12px 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+      background: var(--surface);
+    }
+    .btn-export {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 6px 12px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-muted);
+      transition: all 0.15s;
+    }
+    .btn-export:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Empty / loading states */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 8px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 40px 20px;
+    }
+    .empty-icon { font-size: 28px; opacity: 0.3; }
+
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* Label color palette */
+    .lbl-PER, .lbl-PERSON   { background: rgba(139,92,246,0.15); color: #a78bfa; }
+    .lbl-ORG                 { background: rgba(59,130,246,0.15); color: #60a5fa; }
+    .lbl-LOC, .lbl-GPE      { background: rgba(16,185,129,0.15); color: #34d399; }
+    .lbl-MISC                { background: rgba(251,191,36,0.15); color: #fbbf24; }
+    .lbl-DATE, .lbl-TIME    { background: rgba(249,115,22,0.15); color: #fb923c; }
+    .lbl-MONEY, .lbl-PERCENT { background: rgba(20,184,166,0.15); color: #2dd4bf; }
+    .lbl-default             { background: rgba(100,116,139,0.15); color: #94a3b8; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">NER</div>
+  <h1><span>Filtrado semiautomático</span> de entidades nombradas</h1>
+</header>
+
+<div class="layout">
+
+  <!-- ── Panel izquierdo: entrada + texto anotado ── -->
+  <div class="panel-left">
+    <div class="section-header">
+      <span class="section-title">Texto de entrada</span>
+      <select class="model-select" id="modelSelect">
+        {% for key in models %}
+        <option value="{{ key }}" {% if key == 'es' %}selected{% endif %}>{{ key }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="textarea-wrap">
+      <textarea id="inputText"
+        placeholder="Introduce aquí el texto que quieres analizar…&#10;&#10;Ejemplo: El presidente Pedro Sánchez se reunió con representantes de Google en Madrid el 15 de marzo de 2024."
+        spellcheck="false"></textarea>
+    </div>
+
+    <div class="analyze-bar">
+      <button class="btn btn-primary" id="analyzeBtn" onclick="analyze()">
+        Analizar
+      </button>
+      <button class="btn btn-ghost" onclick="clearAll()">Limpiar</button>
+      <span id="statusMsg" style="font-family:var(--mono);font-size:11px;color:var(--text-muted);margin-left:auto;"></span>
+    </div>
+
+    <!-- Texto con entidades resaltadas -->
+    <div class="highlighted-section" id="highlightedSection" style="display:none;">
+      <div class="section-title" style="margin-bottom:12px;">Vista anotada</div>
+      <div class="highlighted-text" id="highlightedText"></div>
+    </div>
+  </div>
+
+  <!-- ── Panel derecho: lista de entidades ── -->
+  <div class="panel-right">
+
+    <!-- Estadísticas -->
+    <div class="stats-bar">
+      <div class="stat stat-total">
+        <span class="stat-value" id="statTotal">0</span>
+        <span class="stat-label">Total</span>
+      </div>
+      <div class="stat stat-accept">
+        <span class="stat-value" id="statAccept">0</span>
+        <span class="stat-label">Aceptadas</span>
+      </div>
+      <div class="stat stat-reject">
+        <span class="stat-value" id="statReject">0</span>
+        <span class="stat-label">Rechazadas</span>
+      </div>
+      <div class="stat stat-pending">
+        <span class="stat-value" id="statPending">0</span>
+        <span class="stat-label">Pendientes</span>
+      </div>
+    </div>
+
+    <!-- Acciones en bloque -->
+    <div class="bulk-bar">
+      <button class="btn-small btn-accept-all" onclick="bulkAction('accept_all')">✓ Todas</button>
+      <button class="btn-small btn-reject-all" onclick="bulkAction('reject_all')">✗ Ninguna</button>
+      <button class="btn-small btn-reset-all"  onclick="bulkAction('reset_all')">↺ Resetear</button>
+    </div>
+
+    <!-- Lista de entidades -->
+    <div class="entity-list" id="entityList">
+      <div class="empty-state">
+        <div class="empty-icon">◈</div>
+        <div>Introduce un texto y pulsa Analizar</div>
+      </div>
+    </div>
+
+    <!-- Exportar -->
+    <div class="export-bar">
+      <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted);margin-right:4px;">Exportar:</span>
+      <button class="btn-export" onclick="exportEntities('json', true)">JSON ↗</button>
+      <button class="btn-export" onclick="exportEntities('csv', true)">CSV ↗</button>
+      <button class="btn-export" onclick="exportEntities('json', false)" title="Todo (no solo aceptadas)">JSON (todo)</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ── Paleta de colores por etiqueta ──────────────────────────────────────────
+  const LABEL_COLORS = {
+    PER: '#a78bfa', PERSON: '#a78bfa',
+    ORG: '#60a5fa',
+    LOC: '#34d399', GPE: '#34d399',
+    MISC: '#fbbf24',
+    DATE: '#fb923c', TIME: '#fb923c',
+    MONEY: '#2dd4bf', PERCENT: '#2dd4bf',
+  };
+
+  function labelColor(label) {
+    return LABEL_COLORS[label] || '#94a3b8';
+  }
+
+  function labelClass(label) {
+    const known = ['PER','PERSON','ORG','LOC','GPE','MISC','DATE','TIME','MONEY','PERCENT'];
+    return known.includes(label) ? `lbl-${label}` : 'lbl-default';
+  }
+
+  // ── Estado local ────────────────────────────────────────────────────────────
+  let currentEntities = [];
+
+  // ── Analizar ────────────────────────────────────────────────────────────────
+  async function analyze() {
+    const text = document.getElementById('inputText').value.trim();
+    const model = document.getElementById('modelSelect').value;
+    if (!text) return;
+
+    const btn = document.getElementById('analyzeBtn');
+    const status = document.getElementById('statusMsg');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>';
+    status.textContent = '';
+
+    try {
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({text, model})
+      });
+      const data = await res.json();
+
+      if (data.error) {
+        status.textContent = '⚠ ' + data.error;
+        return;
+      }
+
+      currentEntities = data.entities;
+      renderEntities(currentEntities);
+      renderHighlighted(data.text || text, currentEntities);
+      renderStats(data.stats);
+      status.textContent = `modelo: ${data.model}`;
+
+    } catch(e) {
+      status.textContent = '⚠ Error de conexión';
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = 'Analizar';
+    }
+  }
+
+  // ── Renderizar lista de entidades ───────────────────────────────────────────
+  function renderEntities(entities) {
+    const list = document.getElementById('entityList');
+    if (!entities.length) {
+      list.innerHTML = '<div class="empty-state"><div class="empty-icon">◈</div><div>No se detectaron entidades</div></div>';
+      return;
+    }
+
+    list.innerHTML = entities.map(e => {
+      const dot = e.accepted === true ? 'dot-accepted' :
+                  e.accepted === false ? 'dot-rejected' : 'dot-pending';
+      return `
+      <div class="entity-item" id="item-${e.start_char}">
+        <div class="status-dot ${dot}"></div>
+        <span class="entity-label ${labelClass(e.label)}">${e.label}</span>
+        <span class="entity-text" title="${e.text}">${e.text}</span>
+        <span class="entity-pos">${e.start_char}:${e.end_char}</span>
+        <div class="entity-actions">
+          <button class="action-btn action-accept ${e.accepted===true?'active':''}"
+            onclick="updateEntity(${e.start_char}, 'accept')" title="Aceptar">✓</button>
+          <button class="action-btn action-reject ${e.accepted===false?'active':''}"
+            onclick="updateEntity(${e.start_char}, 'reject')" title="Rechazar">✗</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Renderizar texto anotado ─────────────────────────────────────────────────
+  function renderHighlighted(text, entities) {
+    const section = document.getElementById('highlightedSection');
+    const container = document.getElementById('highlightedText');
+    section.style.display = 'block';
+
+    if (!entities.length) {
+      container.textContent = text;
+      return;
+    }
+
+    // Ordenar entidades por posición
+    const sorted = [...entities].sort((a, b) => a.start_char - b.start_char);
+    let html = '';
+    let cursor = 0;
+
+    for (const e of sorted) {
+      // Texto entre entidades
+      html += escapeHtml(text.slice(cursor, e.start_char));
+      const statusClass = e.accepted === true ? 'ent-accepted' :
+                          e.accepted === false ? 'ent-rejected' : 'ent-pending';
+      html += `<span class="ent-mark ${statusClass}" 
+                     style="border: 1px solid ${labelColor(e.label)}33"
+                     onclick="cycleEntity(${e.start_char})"
+                     title="${e.label}: ${e.text}">` +
+              escapeHtml(e.text) +
+              `<span class="label-tag">${e.label}</span></span>`;
+      cursor = e.end_char;
+    }
+    html += escapeHtml(text.slice(cursor));
+    container.innerHTML = html;
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ── Ciclar estado al hacer clic en el texto ─────────────────────────────────
+  async function cycleEntity(startChar) {
+    const ent = currentEntities.find(e => e.start_char === startChar);
+    if (!ent) return;
+    const action = ent.accepted === null ? 'accept' :
+                   ent.accepted === true  ? 'reject' : 'reset';
+    await updateEntity(startChar, action);
+  }
+
+  // ── Actualizar entidad ──────────────────────────────────────────────────────
+  async function updateEntity(startChar, action) {
+    const res = await fetch('/api/update', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({start_char: startChar, action})
+    });
+    const data = await res.json();
+    currentEntities = data.entities;
+    renderEntities(currentEntities);
+    renderHighlighted(document.getElementById('inputText').value, currentEntities);
+    renderStats(data.stats);
+  }
+
+  // ── Acciones en bloque ──────────────────────────────────────────────────────
+  async function bulkAction(action) {
+    const res = await fetch('/api/bulk', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({action})
+    });
+    const data = await res.json();
+    currentEntities = data.entities;
+    renderEntities(currentEntities);
+    renderHighlighted(document.getElementById('inputText').value, currentEntities);
+    renderStats(data.stats);
+  }
+
+  // ── Estadísticas ────────────────────────────────────────────────────────────
+  function renderStats(stats) {
+    document.getElementById('statTotal').textContent  = stats.total;
+    document.getElementById('statAccept').textContent = stats.accepted;
+    document.getElementById('statReject').textContent = stats.rejected;
+    document.getElementById('statPending').textContent= stats.pending;
+  }
+
+  // ── Exportar ────────────────────────────────────────────────────────────────
+  function exportEntities(format, onlyAccepted) {
+    const param = onlyAccepted ? 'true' : 'false';
+    window.location.href = `/api/export/${format}?only_accepted=${param}`;
+  }
+
+  // ── Limpiar ─────────────────────────────────────────────────────────────────
+  function clearAll() {
+    document.getElementById('inputText').value = '';
+    currentEntities = [];
+    renderEntities([]);
+    renderStats({total:0, accepted:0, rejected:0, pending:0});
+    document.getElementById('highlightedSection').style.display = 'none';
+    document.getElementById('statusMsg').textContent = '';
+  }
+
+  // ── Enter para analizar ──────────────────────────────────────────────────────
+  document.getElementById('inputText').addEventListener('keydown', e => {
+    if (e.ctrlKey && e.key === 'Enter') analyze();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# requirements.txt — NER Filter App
+
+flask>=3.0.0
+spacy>=3.7.0
+
+# ── Modelos large (instalar con setup_venv.sh o manualmente) ──────────────────
+# python -m spacy download es_core_news_lg    ← español  large  ~500 MB  ✅ recomendado
+# python -m spacy download es_core_news_md    ← español  mediano
+# python -m spacy download es_core_news_sm    ← español  pequeño
+# python -m spacy download en_core_web_lg     ← inglés   large  ~560 MB  ✅ recomendado
+# python -m spacy download en_core_web_trf    ← inglés   transformer (más preciso, más lento)
+# python -m spacy download xx_ent_wiki_sm     ← multilingüe
