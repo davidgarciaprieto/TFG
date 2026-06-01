@@ -1,6 +1,4 @@
 # ── docker-compose.yml — NER Filter App ──────────────────────────────────────
-version: "3.9"
-
 services:
   ner-filter:
     build:
@@ -18,7 +16,7 @@ services:
       - FLASK_ENV=development   # Cambia a "production" en producción
       - FLASK_PORT=5000
     restart: unless-stopped
-
+ 
 volumes:
   hf_cache:
   stanza_cache:
