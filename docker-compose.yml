@@ -1,0 +1,24 @@
+# ── docker-compose.yml — NER Filter App ──────────────────────────────────────
+version: "3.9"
+
+services:
+  ner-filter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ner-filter
+    ports:
+      - "5000:5000"       # http://localhost:5000
+    volumes:
+      # Caché de modelos HuggingFace: se persiste entre reinicios del contenedor
+      - hf_cache:/app/.cache/huggingface
+      # Caché de modelos Stanza
+      - stanza_cache:/app/.cache/stanza
+    environment:
+      - FLASK_ENV=development   # Cambia a "production" en producción
+      - FLASK_PORT=5000
+    restart: unless-stopped
+
+volumes:
+  hf_cache:
+  stanza_cache:

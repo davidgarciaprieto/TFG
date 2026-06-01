@@ -1,14 +1,14 @@
 # ── Core ──────────────────────────────────────────────────────────────────────
 flask>=3.0.0
+requests>=2.31.0
 
-# ── Backend: spaCy (es_core_news_lg) ─────────────────────────────────────────
+# ── Backend: spaCy ────────────────────────────────────────────────────────────
 spacy>=3.7.0
-# python -m spacy download es_core_news_lg
+# Modelo descargado en el Dockerfile: es_core_news_lg
 
 # ── Backend: HuggingFace (BETO, SpanBERTa, XLM-RoBERTa) ─────────────────────
 transformers>=4.38.0
-torch>=2.0.0          # CPU; para GPU: pip install torch --index-url https://download.pytorch.org/whl/cu121
+torch>=2.0.0
 
 # ── Backend: Stanza ───────────────────────────────────────────────────────────
 stanza>=1.7.0
-# python -c "import stanza; stanza.download('es')"
