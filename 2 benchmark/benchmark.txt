@@ -1,0 +1,60 @@
+===============================================================================
+BENCHMARK DE EVALUACIÓN PARA PROCESAMIENTO DE TEXTO NATURAL (NLP)
+DOMINIOS MÚLTIPLES - PÁRRAFOS COMPLETOS INDEPENDIENTES
+===============================================================================
+
+INSTRUCCIONES DE USO PARA EVALUACIÓN SEPARADA:
+-------------------------------------------------------------------------------
+Para realizar la evaluación de manera correcta, copie cada uno de los párrafos 
+siguientes por separado y envíelos de forma independiente a la API o librería 
+en cuestión. NO una los textos en un único string ni los envíe en un solo lote, 
+ya que el objetivo es evaluar el rendimiento de desambiguación y extracción 
+contextual por dominio aislado.
+
+-------------------------------------------------------------------------------
+PÁRRAFO 1: DOMINIO BIOMÉDICO Y CIENCIAS DE LA SALUD (Fuente: Wikipedia)
+-------------------------------------------------------------------------------
+La doble hélice es el modelo estructural de la molécula de ADN propuesto por James Watson y Francis Crick en 1953. Esta estructura consiste en dos cadenas de nucleótidos que se enrollan de forma helicoidal alrededor de un eje central imaginario. Ambas hebras son antiparalelas, lo que significa que la dirección de los enlaces de los componentes químicos corre en sentidos opuestos, y se mantienen unidas mediante puentes de hidrógeno específicos entre las bases nitrogenadas: la adenina se aparea exclusivamente con la timina, y la citosina con la guanina. Esta complementariedad de bases es el principio fundamental que permite la replicación exacta del material genético durante la división celular, un proceso catalizado por la enzima ADN polimerasa que asegura la transmisión de la información hereditaria.
+
+SPACY:  James WatsonPER, Francis CrickPER, Esta estructuraMISC, Ambas hebras son antiparalelasMISC, Esta complementariedad de basesMISC.
+BETO-NER: ADNMISC, James WatsonPER,  Francis CrickPER, ADNMISC.
+SpanBERTa:  ADNMISC, James WatsonPER, Francis CrickPER, ADN polimerasaMISC.
+STANZA: ADNMISC, James WatsonPER,  Francis CrickPER, ADNMISC.
+XML-RoBERTa: James WatsonPER,  Francis CrickPER, ADNMISC.
+COMBINDO: ADNMISC, James WatsonPER,  Francis CrickPER, ADNMISC.
+
+-------------------------------------------------------------------------------
+PÁRRAFO 2: DOMINIO HISTÓRICO Y GEOPOLÍTICO (Fuente: Wikipedia)
+-------------------------------------------------------------------------------
+El Imperio bizantino, conocido también como el Imperio romano de Oriente, fue el Estado heredero de la mitad oriental del Imperio romano que perduró a lo largo de toda la Edad Media y los inicios del Renacimiento. Su capital se estableció en Constantinopla, una estratégica urbe fundada por el emperador Constantino el Grande sobre la antigua colonia griega de Bizancio. A diferencia del Imperio romano de Occidente, que colapsó en el siglo V debido a las invasiones germánicas y la inestabilidad interna, el Oriente bizantino logró resistir gracias a su sólida burocracia estatal, una economía basada en el comercio intercontinental de la Ruta de la Seda y un imponente sistema defensivo. Su existencia concluyó finalmente en 1453, cuando las tropas otomanas bajo el mando del sultán Mehmed II lograron romper las murallas de la capital tras un prolongado asedio.
+
+SPACY: Imperio bizantinoMISC, Imperio romano de OrienteLOC, Estado herederoLOC, Imperio romanoLOC, Edad MediaMISC, RenacimientoPER,  ConstantinoplaLOC,  Constantino el GrandePER,  BizancioLOC, Imperio romano de OccidenteLOC, OrienteMISC, Ruta de la SedaLOC,  Mehmed IIPER.
+BETO-NER: ImperioORG, Imperio romano de OrienteORG, EstadoORG,  ImperioMISC, Edad MediaMISC, RenacimientoMISC,  ConstantinoplaLOC,  Constantino el GrandePER,  BiLOC##zancioLOC,  Imperio romanoORG,  OccidenteLOC, OrienteORG, Ruta de la SedaMISC,  Mehmed IIPER.
+SpanBERTa:  ImperioORG, ImperioORG romanoMISC de OrienteORG, EstadoORG, ImperioORG, Edad MediaMISC, RenacimientoMISC, ConstantinoplaLOC,  Constantino el GrandePER,  BizancioLOC,  ImperioORG, OccidentLOCeORG,  OrienteORG, Ruta de la SedaMISC,  Mehmed IIPER.
+STANZA: ImperioMISC,  Imperio romano de OrienteMISC, EstadoORG, ImperioMISC,  Edad MediaMISC, RenacimientoMISC,  ConstantinoplaLOC,  Constantino el GrandePER,  BizancioLOC, Imperio romano de OccidenteMISC,  OrienteORG, Ruta de la SedaMISC,  Mehmed IIPER.
+XML-RoBERTa:ImperioLOC bizantinMISCoLOC, Imperio romano de OrienteLOC, Imperio romanoMISC, Edad MediaMISC, RenacimientoMISC,  ConstantinoplaLOC, ConstantinoPER, GrandePER,  griMISC, BizancioLOC, Imperio romano deLOC OccidenteLOC, l OrienteLOC bizantinMISCoLOC,  Ruta de la SedaLOC,  otoMISC, Mehmed IIPER.
+COMBINADO:ImperioMISC,  Imperio romano de OrienteMISC, EstadoORG, ImperioMISC,  Edad MediaMISC, RenacimientoMISC,  ConstantinoplaLOC,  Constantino el GrandePER,  BizancioLOC, Imperio romano de OccidenteMISC,  OrienteORG, Ruta de la SedaMISC,  Mehmed IIPER.
+
+-------------------------------------------------------------------------------
+PÁRRAFO 3: DOMINIO TECNOLÓGICO E INFORMÁTICA (Fuente: Wikipedia)
+-------------------------------------------------------------------------------
+La computación en la nube es un paradigma que permite ofrecer servicios de computación a través de una red, que usualmente es Internet. En este modelo, los recursos tecnológicos como la capacidad de almacenamiento, la potencia de procesamiento de los servidores y el acceso a bases de datos estructuradas se proporcionan bajo demanda y como un servicio pago por uso. Los usuarios y empresas evitan la necesidad de invertir en costosas infraestructuras de hardware locales o en el mantenimiento de centros de datos privados. El entorno se sustenta fuertemente en tecnologías de virtualización, las cuales permiten que un único servidor físico se divida de forma lógica en múltiples instancias virtuales aisladas, optimizando la escalabilidad y garantizando una alta disponibilidad ante picos repentinos de tráfico global.
+
+SPACY:  InternetMISC, Los usuarios y empresasMISC,  El entorno se sustenta fuertemente en tecnologías de virtualizaciónMISC.
+BETO-NER: InternetMISC.
+SpanBERTa: InternetMISC.
+STANZA: InternetMISC.
+XML-RoBERTa: InternetLOC.
+COMBINADO: InternetMISC.
+
+-------------------------------------------------------------------------------
+PÁRRAFO 4: DOMINIO DE ARTE Y ARQUITECTURA (Fuente: Wikipedia)
+-------------------------------------------------------------------------------
+La arquitectura gótica fue un estilo arquitectónico paneuropeo que floreció durante la Baja Edad Media, evolucionando a partir de la arquitectura románica y siendo sucedido por el Renacimiento. Este estilo se caracterizó por una profunda búsqueda de la altura y de la luz, transformando los templos en representaciones terrenales de la divinidad. La viabilidad técnica de estas monumentales estructuras se logró gracias a tres innovaciones estructurales fundamentales: el arco apuntado o de ojiva, que distribuía mejor los empujes verticales; la bóveda de crucería, que aligeraba el peso de las cubiertas; y los contrafuertes conectados mediante arbotantes exteriores, que desviaban las presiones laterales de las bóvedas hacia los cimientos, permitiendo abrir grandes ventanales decorados con intrincadas vidrieras polícromas.
+
+SPACY:  Baja Edad MediaMISC, RenacimientoPER,  La viabilidad técnica de estas monumentales estructurasMISC.
+BETO-NER: Baja Edad MediaMISC,  RenacimientoMISC.
+SpanBERTa: Baja Edad MediaMISC,  RenacimientoMISC.
+STANZA: Baja Edad MediaMISC,  RenacimientoMISC.
+XML-RoBERTa: europeMISC, Baja Edad MediaMISC,  RenacimientoMISC.
+COMBINADO: Baja Edad MediaMISC,  RenacimientoMISC.

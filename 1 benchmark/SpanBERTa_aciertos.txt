@@ -1,0 +1,210 @@
+Resultados:
+ABSOLUTO: 16 de 18 PER, 80 de 90 LOC, 60 de 66 ORG, 8 de 9 MISC. 164 DE 183 encontradas
+PARCIAL: 16 de 18 PER, 87 de 90 LOC, 60 de 66 ORG, 8 de 9 MISC. 171 DE 183 encontradas
+Falso positivo: 1 y 10 errores de tokenización RESULTADO: 172 de 195 Predichas
+
+Aciertos:
+
+------PER------- 
+
+María López (S)
+Javier Ruiz (S)
+Ana Torres (S)
+Carlos Gómez (S)
+Laura Fernández (S)
+Juan Pérez (S)
+Miguel Ángel Rodrígez (S)
+
+Pedro Sánchez (S)
+Luis Martínez (S)
+Lionel Messi (S)
+Cristiano Ronaldo (S)
+Rafael Nadal (S)
+Fernando Alonso (S)
+Juan Martínez (S)
+Ana Pérez (S)
+Carlos Sainz (S)
+Bad Bunny (PARCIAL)
+
+------LOC------- 
+
+Valencia x2 x2 (S)
+
+Madrid x6 x6(S)
+París x3 x3 (S)
+Sevilla x3 x3 (S)
+México x3 x3 (S)
+Bruselas (S)
+España (S)
+Italia (S)
+Chile (S)
+Alemania x4 x4 (S)
+Europa (S)
+Londres x2 x2 (S)
+California (S)
+Cupertino (S)
+
+Corea (S)
+Arizona (S)
+Estados Unidos x2 x2 (S)
+África (S)
+Francia x2 x2(S)
+
+Reino Unido (S)
+Museo del Prado (S)
+Roma x3 x3 (S)
+Berlín (S)
+Nueva York x2 x2 (S)
+Cancún (S)
+Lisboa (S)
+Portula (S)
+Tokio (S)
+Osaka (S)
+
+Ginebra (S)
+Washington (S)
+Bernabéu (S)
+Camp Nou (S)
+Los Ángeles x2 x2 (S)
+Mónaco (S)
+Qatar (S)
+Hollywood (S)
+
+Cannes--- (S)
+
+Wembley (S)---
+Buenos Aires (S)
+Frankfurt (S)
+San José (S)
+Bilbao x2 x2(S)
+Barcelona x3 x3 (S)
+Mestalla (S)
+Heatrhow (S)
+Dublín (S)
+Florida (S)
+Texas (S)
+
+
+
+Valencia (S)---
+India (S)
+
+El Prat (S)---
+Glasgow (S)
+Miami (S)
+Málaga (S)
+
+Brasil(S)
+China(S)
+Doha (S)
+
+------ORG-------
+
+
+Universidad de Barcelona (S)
+Banco Santander (S)
+Telefónica (S)
+BBVA (S)
+Inditex (S)
+Repsol (S)
+
+Amazon (S)
+Google (S)
+Microsoft (S)
+Apple (S)
+OpenAI (S)
+Meta (S)
+Facebook (S)
+Tesla (S)
+NVIDIA (S)
+Samsung (S)
+Intel (S)
+Hospital Clínic de Barcelona --- (S)
+Pfizer (S)
+Moderna (S)
+OMS (S)
+Sanofi (S)
+Roche (S)
+AstraZeneca (S)
+Parlamento Europeo (S)
+Tribunal Supremo (S)
+ONU (S)
+Congreso (S)
+Fiscalia (S)
+Inter Miami (S)
+
+Real Madrid (S)
+FC Barcelona (S)
+NBA (S)
+FIFA (S)
+Netflix (S)
+Disney (S)
+HBO  (S)
+Spotify (S)
+Banco Central Europeo (S)
+Adobe (S)
+Uber (S)
+Airbnb (S)
+Valencia CF (S)
+Universidad Complutense (S)
+IBM (S)
+Oracle (S)
+NASA (S)
+SpaceX(S)
+Senado (S)
+Hospital Gregorio Marañón (S)
+SAP (S)
+
+Bolsa de Nueva York(S)
+
+Ferrari(S)
+
+Planeta (S)
+Guardia Civil (S)
+Congreso de España (S)
+Univerdidad de Oxford (S)
+Huawei (S)
+Gobierno de España (S)
+Casa Blanca (S)
+
+------MISC------ 8 de 9
+
+Windows 12 (S)
+Iphone 15 (S)
+-modelo- GPT
+GPT (S)
+Galaxy S24 (S)
+Mundial (S)
+Oscar (S)
+Primavera Sound (S)
+Roland Garros (S)
+-----------------------------
+
+
+Fallos:
+
+------PER------- 16 de 18, 17 de 18 par
+Sofía Castro (Doble error, lo separa Sof-ía Castro)
+Bad Bunny (erro tokenización Bad Bun-ny)
+
+------LOC------- 80 de 90 87 de 90 parciales 
+Hospital La Paz (doble error lo separa y pone mitaz ORG y PAZ LOC)
+Taiwán (triple error tokenización Tai-w-án)
+Suiza (error tokenización Su-iza)
+Antártida (Error tokenización An-tártida)
+Suecia (Error en tokenización Sue-cia)
+Museo Guggenheim (Separa las dos y da org a Museo y LOC a Guggenheim)
+Río Amazonas (Coge solo Amazonas como MISC) 
+
+------ORG------- 60 de 66
+Iberdrola (doble error, lo separa I-berdrola)
+Al-Nassr (error lo pone como PER)
+Cabify (da MISC)
+G20 (Error sepra la G del 20 y da ORG MISC)
+Zara (la da como MISC)
+Selección Española (error tokenización Sele-cción Española)
+
+Falso positivo:
+AI
+10
+

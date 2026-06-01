@@ -1,0 +1,195 @@
+Aciertos: 18 PER, 92-86 LOC, 64-69 ORG, 8 MISC. TOTAL = 182
+
+Los hospitales y museos se consieran LOC o ORG en función del modelo NER. Ambos son válidos, siempre
+que sea consistente en todo el benchmarck.
+Cannes vale LOC o ORG
+
+------PER-------
+
+María López 
+Javier Ruiz 
+Ana Torres 
+Carlos Gómez 
+Laura Fernández 
+Juan Pérez 
+Miguel Ángel Rodrígez 
+Sofía Castro 
+Pedro Sánchez 
+Luis Martínez 
+Lionel Messi 
+Cristiano Ronaldo 
+Rafael Nadal  	
+Fernando Alonso 
+Juan Martínez 
+Ana Pérez 
+Carlos Sainz 
+Bad Bunny 
+
+------LOC-------
+
+Valencia x2 
+
+Madrid x6 
+París x3 
+Sevilla x3 
+México x3
+Bruselas
+España
+Italia
+Chile 
+Alemania x4 
+Europa 
+Londres x2 
+California 
+Cupertino 
+Taiwán 
+Corea 
+Arizona 
+Estados Unidos x2 
+África 
+Francia x2 
+Suiza 
+Reino Unido 
+
+Roma x3 
+Berlín 
+Nueva York x2 
+Cancún 
+Lisboa 
+Portula  
+
+Tokio 
+Osaka 
+Antártida 
+Ginebra 
+Washington 
+Bernabéu 
+Camp Nou 
+Los Ángeles x2 
+Mónaco 
+Qatar 
+Hollywood
+Suecia 
+
+estadio de Wembley--- Wembley 
+
+Buenos Aires 
+Frankfurt 
+San José 
+Bilbao x2 
+Barcelona x3 
+Mestalla
+Heatrhow 
+Dublín 
+Florida 
+Texas 
+
+
+puerto de Valencia --- Valencia 
+
+India 
+Aeropuerto El Prat--- El Prat 
+
+Glasgow 
+Miami 
+Málaga 
+Río Amazonas 
+Brasil
+China
+Doha
+-----------------------------
+Hospital La Paz --- 
+Hospital Gregorio Marañon---
+Museo Guggenheim---
+Museo del Prado ---
+Hospital La Paz--- 
+Cannes---
+------ORG-------
+
+
+
+Universidad de Barcelona 
+Banco Santander 
+Telefónica 
+BBVA 
+Inditex 
+Repsol 
+Iberdrola 
+Amazon 
+Google 
+Microsoft 
+Apple 
+OpenAI
+Meta 
+Facebook
+Tesla 
+NVIDIA
+Samsung 
+Intel
+
+Pfizer 
+Moderna
+OMS 
+Sanofi 
+Roche 
+AstraZeneca 
+Parlamento Europeo 
+Tribunal Supremo 
+ONU 
+Congreso  
+Fiscalia 
+Inter Miami 
+Al Nassr
+Real Madrid 
+FC Barcelona 
+NBA 
+FIFA 
+Netflix 
+Disney
+HBO 
+Spotify 
+Banco Central Europeo 
+Adobe 
+Uber 
+Airbnb 
+Valencia CF 
+Universidad Complutense 
+IBM 
+Oracle 
+NASA 
+SpaceX
+Senado 
+SAP 
+Cabify 
+Bolsa de Nueva York
+G20
+Ferrari
+Zara
+Planeta 
+Guardia Civil 
+Congreso de España 
+Univerdidad de Oxford 
+Huawei 
+Selección española 
+Casa Blanca
+Gobierno de España
+
+------MISC------
+
+Windows 12 
+Iphone 15 
+-modelo- GPT 
+Galaxy S24 
+Roland Garros
+Mundial 
+Oscar 
+Primavera Sound 
+-----------------------------
+
+
+Dudosas:
+
+
+GPU --- No entity
+IA --- No entity
+software --- No entity

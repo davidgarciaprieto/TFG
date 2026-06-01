@@ -1,0 +1,250 @@
+===============================================================================
+BENCHMARK DE FILTRADO DE ENTIDADES — 10 BLOQUES / 102 TÉRMINOS
+Pega cada bloque en el área de filtrado. Un término por línea.
+Para los bloques con lista negra, añade los términos indicados ANTES de filtrar.
+===============================================================================
+
+
+───────────────────────────────────────────────────────────────────────────────
+BLOQUE 1 · F1 — Ruido numérico y tokens de un solo carácter
+Sin lista negra.
+───────────────────────────────────────────────────────────────────────────────
+Pedro Sánchez
+Google
+Madrid
+3
+2024
+95
+1453
+V
+a
+I
+el
+de
+
+Conservar:  Pedro Sánchez · Google · Madrid                          [3 de 12]
+Eliminar:   3 · 2024 · 95 · 1453 (F1 — solo dígitos)
+            V · a · I (F1 — longitud 1)
+            el · de (F1 — token funcional)
+
+
+───────────────────────────────────────────────────────────────────────────────
+BLOQUE 2 · F1 — Fragmentos WordPiece de modelos transformer
+Sin lista negra.
+───────────────────────────────────────────────────────────────────────────────
+Francis Crick
+Constantinopla
+Mehmed II
+NVIDIA
+Uber
+##ber
+##talla
+##nia
+##ofi
+##zancio
+gri
+oto
+euro
+occi
+
+Conservar:  Francis Crick · Constantinopla · Mehmed II · NVIDIA · Uber  [5 de 14]
+Eliminar:   ##ber · ##talla · ##nia · ##ofi · ##zancio (F1 — prefijo ##)
+            gri · oto · euro · occi (F1 — token corto en minúsculas)
+
+
+───────────────────────────────────────────────────────────────────────────────
+BLOQUE 3 · F1 — Puntuación pura y símbolos sin ninguna letra
+Sin lista negra.
+───────────────────────────────────────────────────────────────────────────────
+Barcelona
+Ruta de la Seda
+Edad Media
+-
+--
+...
+.
+,
+:
+&
+/
+
+Conservar:  Barcelona · Ruta de la Seda · Edad Media                 [3 de 11]
+Eliminar:   - · -- · ... · . · , · : · & · /  (F1 — sin ninguna letra)
+
+
+───────────────────────────────────────────────────────────────────────────────
+BLOQUE 4 · F1 — Abreviaciones válidas vs fragmentos sin vocal
+Sin lista negra.
+───────────────────────────────────────────────────────────────────────────────
+Dr. Ramírez
+Sr. García
+Prof. Martínez
+ONU
+ADN
+GPT-4
+Bz
+Bx
+
+Conservar:  Dr. Ramírez · Sr. García · Prof. Martínez (F1 preserva abrev.)
+            ONU · ADN (F1 preserva acrónimos en mayúsculas)
+            GPT-4 (F1 preserva tokens con guión)                     [6 de 8]
+Eliminar:   Bz · Bx (F1 — sin vocal, probable fragmento)
+NOTA:       Tokens como Biz, Bi, Tai tienen vocal y no se distinguen
+            automáticamente de nombres propios cortos (Ali, Kim, Bob).
+            Si son falsos positivos, añadir a la lista negra manualmente.
+
+
+───────────────────────────────────────────────────────────────────────────────
+BLOQUE 5 · F2 — Sintagmas nominales sin nombre propio
+Sin lista negra.
+───────────────────────────────────────────────────────────────────────────────
+Internet
+Los usuarios y empresas
+Esta estructura
+Ambas hebras son antiparalelas
+la burocracia estatal
+Estado heredero
+un proceso catalizado por la enzima
+este paradigma
+
+Conservar:  Internet                                                  [1 de 8]
+Eliminar:   Los usuarios y empresas (F2 — artículo + sustantivo común)
+            Esta estructura (F2 — demostrativo + sustantivo)
+            Ambas hebras son antiparalelas (F2 — demostrativo + verbo sin NP)
+            la burocracia estatal (F2 — sin mayúsculas internas)
+            Estado heredero (F2 — adjetivo sin nombre propio)
+            un proceso catalizado por la enzima (F2 — sin mayúsculas)
+            este paradigma (F2 — demostrativo + sustantivo común)
+
+
+───────────────────────────────────────────────────────────────────────────────
+BLOQUE 6 · F2 — NO elimina entidades con nombre propio aunque lleven artículo
+Sin lista negra.
+───────────────────────────────────────────────────────────────────────────────
+La Casa Blanca
+Los Ángeles
+El País
+La Roja
+El Bernabéu
+Estado Islámico
+La Ruta de la Seda
+La Edad Media
+Champions League
+
+Conservar:  TODOS (F2 los preserva porque contienen nombre propio)   [9 de 9]
+Eliminar:   ninguno
+
+
+───────────────────────────────────────────────────────────────────────────────
+BLOQUE 7 · F0 — Lista negra insensible a mayúsculas y acentos
+⚠ Añadir a la lista negra ANTES de filtrar:  IA  GPU  API
+───────────────────────────────────────────────────────────────────────────────
+Google
+OpenAI
+GPU Tesla T4
+ADN polimerasa
+IA
+ia
+Ia
+GPU
+API
+
+Conservar:  Google · OpenAI · GPU Tesla T4 · ADN polimerasa          [4 de 9]
+Eliminar:   IA · ia · Ia (F0 — los tres equivalen a 'ia' normalizado)
+            GPU · API (F0 — lista negra)
+CLAVE:      GPU Tesla T4 NO se elimina aunque GPU esté en la lista negra.
+            La comparación es de texto exacto, no de prefijo.
+
+
+───────────────────────────────────────────────────────────────────────────────
+BLOQUE 8 · F0 — La lista negra no elimina superconjuntos del término
+⚠ Añadir a la lista negra ANTES de filtrar:  ADN
+───────────────────────────────────────────────────────────────────────────────
+James Watson
+Francis Crick
+ADN polimerasa
+Premio Nobel
+Rosalind Franklin
+ADN
+
+Conservar:  James Watson · Francis Crick · ADN polimerasa            [5 de 6]
+            Premio Nobel · Rosalind Franklin
+Eliminar:   ADN (F0 — término exacto en lista negra)
+CLAVE:      ADN polimerasa NO debe eliminarse. La BL compara exacto.
+
+
+───────────────────────────────────────────────────────────────────────────────
+BLOQUE 9 · Integración — Dominio histórico (F1 + F2)
+Sin lista negra.
+───────────────────────────────────────────────────────────────────────────────
+Imperio romano de Oriente
+Imperio romano
+Edad Media
+Renacimiento
+Constantinopla
+Constantino el Grande
+Bizancio
+Imperio romano de Occidente
+Ruta de la Seda
+Mehmed II
+Imperio
+Estado heredero
+roman
+
+Conservar:  Imperio romano de Oriente · Imperio romano · Edad Media
+            Renacimiento · Constantinopla · Constantino el Grande
+            Bizancio · Imperio romano de Occidente · Ruta de la Seda
+            Mehmed II · Imperio                                      [11 de 13]
+Eliminar:   Estado heredero (F2 — adjetivo sin nombre propio)
+            roman (F1 — token corto en minúsculas)
+NOTA:       Imperio romano NO desaparece como subtérmino de
+            "Imperio romano de Oriente": el F3 está desactivado para
+            entradas sin coordenadas de span.
+
+
+───────────────────────────────────────────────────────────────────────────────
+BLOQUE 10 · Integración — Dominio biomédico (F0 + F1 + F2)
+⚠ Añadir a la lista negra ANTES de filtrar:  ADN
+───────────────────────────────────────────────────────────────────────────────
+James Watson
+Francis Crick
+ADN polimerasa
+Premio Nobel
+Watson
+ADN
+1953
+Esta complementariedad de bases
+##ber
+gri
+
+Conservar:  James Watson · Francis Crick · ADN polimerasa            [5 de 10]
+            Premio Nobel · Watson
+Eliminar:   ADN (F0 — lista negra exacta)
+            1953 (F1 — solo dígitos)
+            Esta complementariedad de bases (F2 — demostrativo + sin NP)
+            ##ber (F1 — fragmento WordPiece)
+            gri (F1 — token corto en minúsculas)
+
+
+===============================================================================
+TABLA DE RESULTADOS
+TP = términos eliminados correctamente
+FP = términos eliminados por error (debían conservarse)
+FN = términos conservados por error (debían eliminarse)
+===============================================================================
+
+Bloque | N  | Esperados | TP | FP | FN | P    | R    | F1
+-------|----|-----------|----|----|----|------|------|------
+  1    | 12 |     9     |    |    |    |      |      |
+  2    | 14 |     9     |    |    |    |      |      |
+  3    | 11 |     8     |    |    |    |      |      |
+  4    |  8 |     2     |    |    |    |      |      |
+  5    |  8 |     7     |    |    |    |      |      |
+  6    |  9 |     0     |    |    |    |      |      |
+  7    |  9 |     5     |    |    |    |      |      |
+  8    |  6 |     1     |    |    |    |      |      |
+  9    | 13 |     2     |    |    |    |      |      |
+ 10    | 10 |     5     |    |    |    |      |      |
+-------|----|-----------|----|----|----|------|------|------
+TOTAL  |100 |    48     |    |    |    |      |      |
+

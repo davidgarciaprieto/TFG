@@ -1,0 +1,215 @@
+Resultados:
+ABSOLUTO: 18 de 18 PER, 85 de 92 LOC, 61 de 64 ORG, 7 de 9 MISC. 171 DE 183 encontradas
+PARCIAL: 18 de 18 PER, 88 de 92 LOC, 61 de 64 ORG, 7 de 9 MISC. 174 DE 183 encontradas
+Falso positivo: 3 LOC, 3 ORG. 3 ORG MAL Predichas . RESULTADO: 171 de 185 Predichas
+
+Aciertos: 
+
+------PER------- 18 PER
+
+María López (S)
+Javier Ruiz (S)
+Ana Torres (S)
+Carlos Gómez (S)
+Laura Fernández (S)
+Juan Pérez (S)
+Miguel Ángel Rodrígez (S)
+Sofía Castro (S)
+Pedro Sánchez (S)
+Luis Martínez (S)
+Lionel Messi (S)
+Cristiano Ronaldo (S)
+Rafael Nadal (S)
+Fernando Alonso (S)
+Juan Martínez (S)
+Ana Pérez (S)
+Carlos Sainz (S)
+Bad Bunny (S)
+
+------LOC------- 89 PARCIAL 3 ABSOLUTO 86 CANNES y HOSPITALES INCLUIDO 
+
+Valencia x2 x2 (S)
+Hospital La Paz--- (S)
+Madrid x6 x6 (S)
+París x3 x3 (S)
+Sevilla x3 x3 (S)
+México x3 x3 (S)
+Bruselas (S) 19
+
+España (S)
+Italia (S)
+Chile (S)
+Alemania x4 x4(S)
+Europa (S)
+Londres x2 x1
+California (S) 
+Cupertino (S)
+Taiwán (S)
+Corea (S)
+Arizona (S)
+Estados Unidos x2 x2 (S)
+África (S)
+Francia x2 x2(S) 20
+
+Suiza (S)
+Reino Unido (S)
+
+Roma x3 x3 (S)
+Berlín (S)
+Nueva York x2 x2
+Cancún (S)
+
+Lisboa (S)
+Portugal (S) 
+Tokio (S)
+Osaka (S)
+Antártida (S)
+Ginebra (S)
+Washington (S)
+Bernabéu (S)
+Camp Nou (S)	
+Los Ángeles x2 x2(S)
+Mónaco (S)
+Qatar (S)
+Hollywood (S)
+Suecia (S) 24
+
+Cannes--- (S)
+Wembley (S)
+Buenos Aires (S)
+Frankfurt (S)
+San José (S)
+Bilbao x2 x2 (S)
+Barcelona x3 x2
+Mestalla (S)
+Heatrhow (S)
+Dublín (S)
+Florida (S)
+Texas (S) 
+Hospital Gregorio Marañon--- (S) 16
+
+puerto de Valencia ---
+Valencia (S)
+India (S)
+Aeropuerto El Prat---
+El Prat (S)
+Glasgow (S)
+Miami (S)
+Málaga (S)
+Río Amazonas---
+Amazonas (S)
+Brasil (S)
+China(S)
+Doha(S) 10
+
+------ORG------- 
+
+Hospital La Paz --- 
+Universidad de Barcelona (S)
+Banco Santander (S)
+Telefónica (S)
+BBVA (S)
+Inditex (S)
+Repsol (S)
+Iberdrola (S)
+Amazon (S)
+Google (S)
+Microsoft (S)
+Apple (S)
+OpenAI (S)
+Meta (S)
+FACEBOOCK (S) 
+Tesla (S)
+NVIDIA (S)
+Samsung (S)
+Intel (S)
+Hospital Clínic de Barcelona --- 
+Pfizer (S)
+Moderna (S)
+OMS (S)
+Sanofi (S)
+Roche (S)
+AstraZeneca (S)
+Parlamento Europeo (S)
+Tribunal Supremo (S)
+ONU (S)
+Congreso (S)
+Fiscalia (S)
+Inter Miami (S)
+Al Nassr (S)
+
+Real Madrid (S) 
+FC Barcelona (S)
+NBA (S)
+FIFA (S)
+Netflix (S)
+Disney (S)
+HBO (S)
+Spotify (S)
+Banco Central Europeo (S)
+Adobe (S)
+Uber (S)
+Airbnb (S)
+Valencia CF (S)
+Universidad Complutense (S)
+IBM (S)
+Oracle (S)
+NASA (S)
+SpaceX (S)
+Senado (S)
+SAP (S)
+Cabify (S)
+Bolsa de Nueva York (S)
+
+Ferrari (S) 
+Zara (S)
+Planeta (S)
+Guardia Civil (S)
+Congreso de España (S)
+Univerdidad de Oxford (S)
+Huawei (S)
+Selección Española (S)
+
+------MISC------ 7 DE 8, FALSO NEGATIVO GPT
+
+Windows 12 (S)
+Iphone 15 (S)
+-modelo- GPT (NO DA NADA)
+
+
+Galaxy S24  (S)
+Roland Garros (S)
+Mundial (S)
+Oscar (S)
+festival Primavera Sound
+Primavera Sound (S)
+-----------------------------
+
+
+
+Fallos:
+
+
+
+------PER-------
+
+
+------LOC-------
+Museo del Prado (Lo separa en 3) 2 extras
+Museo Guggenheim (me da solo GU como ORG)
+Hospital Clínic de Brcelona (separa Barcelona y da las dos como LOC) 1 extra
+
+------ORG-------
+
+Gobierno de España (Solo da España como LOC)
+Casa Blanca (La da como LOC)
+G20 (La da como MISC)
+
+
+-----MISC---------
+-modelo- GPT (NO DA NADA)
+GPU
+
+Falso positivo:
+. (da un punto como ORG)
+IA (da ORG) 

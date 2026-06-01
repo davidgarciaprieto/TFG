@@ -1,0 +1,218 @@
+Resultados:
+ABSOLUTO: 18 de 18 PER, 87 de 92 LOC, 48 de 64 ORG, 4 de 9 MISC. 157 DE 183 encontradas
+PARCIAL: 18 de 18 PER, 90 de 92 LOC, 49 de 64 ORG, 6 de 9 MISC. 163 DE 183 encontradas
+Falso positivo: 1 RESULTADO: 157 de 178 Predichas
+
+
+Aciertos:
+
+------PER------- 18
+
+María López
+Javier Ruiz
+Ana Torres
+Carlos Gómez
+Laura Fernández
+Juan Pérez
+Miguel Ángel Rodrígez
+Sofía Castro
+Pedro Sánchez
+Luis Martínez
+Lionel Messi
+Cristiano Ronaldo
+Rafael Nadal
+Fernando Alonso
+Juan Martínez
+Ana Pérez
+Carlos Sainz
+Bad Bunny
+
+------LOC------- 87
+
+Valencia x2
+Hospital La Paz 
+Madrid x6
+París x3
+Sevilla x2
+México x3
+Bruselas
+España
+Italia
+Chile
+Alemania x4
+Europa
+Londres x2
+California
+Cupertino
+Taiwán
+Corea
+Arizona
+Hospital Clínic de Barcelona 
+África
+Francia x2
+Suiza
+Reino Unido
+Roma x3
+Berlín
+Nueva York x2
+Cancún
+Lisboa
+Portugal 
+Tokio 
+Osaka
+Antártida
+Ginebra
+
+Washington
+Bernabéu
+Camp Nou
+Los Ángeles
+Mónaco 
+Qatar
+Hollywood
+Suecia
+Cannes 
+estadio de Wembley
+Buenos Aires
+Frankfurt
+San José
+Bilbao x2
+Barcelona x3
+Mestalla
+Heatrhow
+Dublín
+Florida
+Texas
+Museo Guggenheim
+puerto de Valencia 
+
+India
+Aeropuerto El Prat
+Glasgow
+Miami
+Málaga
+río Amazonas
+Brasil
+China
+Doha
+Hospital Gregorio Marañon
+
+------ORG------- 48
+
+Universidad de Barcelona
+Telefónica
+BBVA
+Inditex
+Repsol
+Iberdrola
+Amazon
+Google
+Microsoft
+Apple
+OpenAI
+nvidia
+Samsung
+Intel
+Pfizer
+OMS
+Sanofi
+
+AstraZeneca
+Tribunal Supremo
+ONU
+Congreso 
+Inter Miami
+Real Madrid
+FC Barcelona
+NBA
+FIFA
+Netflix
+HBO
+Spotify
+Banco Central Europeo
+Adobe
+Uber
+Airbnb
+Valencia CF
+Universidad Complutense
+IBM
+NASA
+SpaceX
+Senado
+SAP
+Cabify
+G20
+Zara
+Guardia Civil
+Congreso de España 
+Univerdidad de Oxford
+Huawei
+Selección Española
+
+------MISC------
+
+Windows 12
+iPhone 15
+
+Galaxy S24
+Mundial
+festival Primavera Sound
+
+-----------------------------
+
+Fallos:
+
+
+------PER-------
+
+
+------LOC-------
+
+en Estados Unidos (tokenización) x2
+Visitamos el Museo del Prado (tokenización)
+Los Ángeles "Oscar en Los Ángeles" MISC)
+
+
+------ORG-------
+Roche (Sale PER)
+Banco Santander (Lo pone como LOC)
+Meta (Lo pone como LOC)
+Tesla (Lo pone como PER)
+El Parlamento Europeo (tokenización)
+El gobierno de España(pone LOC )
+La Fiscalía (pone MISC, mejor ponerla sin artículo)
+Al Nassr (Pone PER)
+Disney (Pone PER)
+Oracle (Pone MISC)
+Ferrari  (Pone PER)
+La Casa Blanca (Pone LOC)
+Facebook(Pone Misc)
+Bolsa de Nueva York(Pone LOC) 
+
+------MISC------
+
+IA (Pone ORG) FALSO POSITIVO
+Oscar (Pone "Oscar en Los Ángeles" MISC)
+Roland Garros (Pone PER)
+
+------------------------------
+
+No encontrados:
+
+------PER-------
+
+
+------LOC-------
+
+Sevilla (alcalde de Sevilla)
+
+------ORG-------
+
+Moderna
+Planeta (editorial Planeta)
+ 
+
+------MISC------
+
+modelo GPT
+GPU

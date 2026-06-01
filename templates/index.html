@@ -1,411 +1,249 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NER Filter — Entidades Nombradas</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NER Filter</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+    :root{
+      --bg:#0e0f11;--surface:#16181c;--surface2:#1e2026;--border:#2a2d35;
+      --accent:#4ade80;--accent-dim:rgba(74,222,128,.12);
+      --reject:#f87171;--reject-dim:rgba(248,113,113,.12);
+      --pending:#facc15;--pending-dim:rgba(250,204,21,.10);
+      --blue:#60a5fa;--blue-dim:rgba(96,165,250,.12);
+      --purple:#a78bfa;--purple-dim:rgba(167,139,250,.12);
+      --text:#e2e4ea;--text-muted:#6b7280;--text-dim:#9ca3af;
+      --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--r:6px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;min-height:100vh;display:flex;flex-direction:column}
 
-    :root {
-      --bg: #0e0f11;
-      --surface: #16181c;
-      --surface2: #1e2026;
-      --border: #2a2d35;
-      --accent: #4ade80;
-      --accent-dim: rgba(74, 222, 128, 0.12);
-      --reject: #f87171;
-      --reject-dim: rgba(248, 113, 113, 0.12);
-      --pending: #facc15;
-      --pending-dim: rgba(250, 204, 21, 0.1);
-      --text: #e2e4ea;
-      --text-muted: #6b7280;
-      --text-dim: #9ca3af;
-      --mono: 'IBM Plex Mono', monospace;
-      --sans: 'IBM Plex Sans', sans-serif;
-      --radius: 6px;
-    }
+    /* Header */
+    header{display:flex;align-items:center;gap:12px;padding:14px 24px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0}
+    .logo{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-dim);border:1px solid rgba(74,222,128,.25);padding:4px 10px;border-radius:var(--r)}
+    header h1{font-size:14px;font-weight:500;color:var(--text-dim)}
+    header h1 span{color:var(--text)}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Mode bar */
+    .mode-bar{display:flex;border-bottom:2px solid var(--border);background:var(--surface);padding:0 20px;flex-shrink:0}
+    .mode-btn{padding:11px 22px;cursor:pointer;border:none;background:transparent;color:var(--text-muted);font-family:var(--sans);font-size:13px;font-weight:600;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;white-space:nowrap}
+    .mode-btn:hover{color:var(--text)}
+    .mode-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      font-size: 14px;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+    /* Pages */
+    .page{display:none;flex-direction:column;flex:1;overflow:hidden;min-height:0}
+    .page.active{display:flex}
 
-    /* ── Header ── */
-    header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 18px 28px;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
-    }
-    .logo {
-      font-family: var(--mono);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-      background: var(--accent-dim);
-      border: 1px solid rgba(74,222,128,0.25);
-      padding: 4px 10px;
-      border-radius: var(--radius);
-    }
-    header h1 {
-      font-size: 15px;
-      font-weight: 500;
-      color: var(--text-dim);
-    }
-    header h1 span { color: var(--text); }
+    /* Model selector bar (NER) */
+    .model-selector-bar{display:flex;align-items:center;gap:12px;padding:10px 20px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0}
+    .model-selector-bar label{font-family:var(--mono);font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em}
+    .model-pills{display:flex;gap:6px;flex-wrap:wrap}
+    .model-pill{font-family:var(--mono);font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;transition:all .15s;white-space:nowrap}
+    .model-pill:hover{border-color:var(--accent);color:var(--accent)}
+    .model-pill.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
 
-    /* ── Layout ── */
-    .layout {
-      display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: 0;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    /* ── Left panel ── */
-    .panel-left {
-      display: flex;
-      flex-direction: column;
-      border-right: 1px solid var(--border);
-      overflow: hidden;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 20px;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
-    }
-    .section-title {
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-
-    /* Model selector */
-    .model-select {
-      font-family: var(--mono);
-      font-size: 12px;
-      background: var(--surface2);
-      color: var(--text-dim);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 4px 8px;
-      cursor: pointer;
-      outline: none;
-    }
-    .model-select:focus { border-color: var(--accent); }
+    /* Layout */
+    .layout{display:grid;grid-template-columns:1fr 360px;flex:1;overflow:hidden;min-height:0}
+    .panel-left{display:flex;flex-direction:column;border-right:1px solid var(--border);overflow:hidden}
+    .panel-right{display:flex;flex-direction:column;overflow:hidden}
+    .sec-header{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0}
+    .sec-title{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase}
 
     /* Textarea */
-    .textarea-wrap {
-      flex: 1;
-      padding: 20px;
-      overflow: auto;
-    }
-    textarea {
-      width: 100%;
-      height: 100%;
-      min-height: 180px;
-      background: transparent;
-      border: none;
-      color: var(--text);
-      font-family: var(--sans);
-      font-size: 14.5px;
-      line-height: 1.8;
-      resize: none;
-      outline: none;
-    }
-    textarea::placeholder { color: var(--text-muted); }
+    .ta-wrap{flex:1;padding:18px;overflow:auto}
+    textarea{width:100%;height:100%;min-height:120px;background:transparent;border:none;color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.8;resize:none;outline:none}
+    textarea::placeholder{color:var(--text-muted)}
 
-    /* Analyze button */
-    .analyze-bar {
-      padding: 16px 20px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      background: var(--surface);
-    }
-    .btn {
-      font-family: var(--mono);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      border: none;
-      border-radius: var(--radius);
-      padding: 8px 16px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-    }
-    .btn-primary:hover { background: #86efac; }
-    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover { color: var(--text); border-color: var(--text-muted); }
+    /* Action bar */
+    .action-bar{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center;background:var(--surface);flex-shrink:0}
+    .btn{font-family:var(--mono);font-size:12px;font-weight:600;border:none;border-radius:var(--r);padding:7px 16px;cursor:pointer;transition:all .15s}
+    .btn-primary{background:var(--accent);color:#000}
+    .btn-primary:hover{background:#86efac}
+    .btn-primary:disabled{opacity:.4;cursor:not-allowed}
+    .btn-ghost{background:transparent;color:var(--text-muted);border:1px solid var(--border)}
+    .btn-ghost:hover{color:var(--text);border-color:var(--text-muted)}
+    .btn-sm{font-family:var(--mono);font-size:11px;font-weight:600;border:none;border-radius:4px;padding:5px 10px;cursor:pointer;transition:all .15s}
+    .btn-green{background:var(--accent-dim);color:var(--accent)}
+    .btn-green:hover{background:rgba(74,222,128,.25)}
+    .btn-red{background:var(--reject-dim);color:var(--reject)}
+    .btn-red:hover{background:rgba(248,113,113,.25)}
+    .btn-gray{background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)}
+    .btn-gray:hover{color:var(--text)}
+    .btn-purple{background:var(--purple-dim);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
+    .btn-purple:hover{background:rgba(167,139,250,.25)}
+    .status{font-family:var(--mono);font-size:11px;color:var(--text-muted);margin-left:auto}
 
-    /* Highlighted text */
-    .highlighted-section {
-      padding: 20px;
-      border-top: 1px solid var(--border);
-      background: var(--surface);
-      max-height: 260px;
-      overflow-y: auto;
-    }
-    .highlighted-text {
-      font-family: var(--sans);
-      font-size: 14.5px;
-      line-height: 1.9;
-      color: var(--text-dim);
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-    .ent-mark {
-      border-radius: 3px;
-      padding: 1px 4px;
-      font-weight: 500;
-      font-size: 13.5px;
-      cursor: pointer;
-      transition: filter 0.15s;
-      position: relative;
-    }
-    .ent-mark:hover { filter: brightness(1.25); }
-    .ent-mark .label-tag {
-      font-family: var(--mono);
-      font-size: 9.5px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      vertical-align: super;
-      margin-left: 3px;
-      opacity: 0.8;
-    }
-    .ent-accepted { background: var(--accent-dim); color: var(--accent); outline: 1px solid rgba(74,222,128,0.3); }
-    .ent-rejected { background: var(--reject-dim); color: var(--reject); text-decoration: line-through; opacity: 0.6; }
-    .ent-pending  { background: var(--pending-dim); color: var(--pending); outline: 1px solid rgba(250,204,21,0.25); }
+    /* Highlighted */
+    .hl-section{padding:14px 18px;border-top:1px solid var(--border);background:var(--surface);max-height:200px;overflow-y:auto;flex-shrink:0}
+    .hl-text{font-size:14px;line-height:1.9;color:var(--text-dim);white-space:pre-wrap;word-break:break-word}
+    .em{border-radius:3px;padding:1px 5px;font-weight:500;cursor:pointer;transition:filter .15s}
+    .em:hover{filter:brightness(1.25)}
+    .em .lt{font-family:var(--mono);font-size:9px;font-weight:600;vertical-align:super;margin-left:3px;opacity:.75}
+    .ea{background:var(--accent-dim);color:var(--accent);outline:1px solid rgba(74,222,128,.3)}
+    .er{background:var(--reject-dim);color:var(--reject);text-decoration:line-through;opacity:.6}
+    .ep{background:var(--pending-dim);color:var(--pending);outline:1px solid rgba(250,204,21,.2)}
 
-    /* ── Right panel ── */
-    .panel-right {
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* Stats bar */
-    .stats-bar {
-      display: flex;
-      gap: 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .stat {
-      flex: 1;
-      padding: 12px 8px;
-      text-align: center;
-      border-right: 1px solid var(--border);
-    }
-    .stat:last-child { border-right: none; }
-    .stat-value {
-      font-family: var(--mono);
-      font-size: 22px;
-      font-weight: 600;
-      display: block;
-    }
-    .stat-label {
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    .stat-total .stat-value  { color: var(--text); }
-    .stat-accept .stat-value { color: var(--accent); }
-    .stat-reject .stat-value { color: var(--reject); }
-    .stat-pending .stat-value{ color: var(--pending); }
-
-    /* Bulk actions */
-    .bulk-bar {
-      display: flex;
-      gap: 8px;
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
-    }
-    .btn-small {
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 600;
-      border: none;
-      border-radius: 4px;
-      padding: 5px 10px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .btn-accept-all { background: var(--accent-dim); color: var(--accent); }
-    .btn-accept-all:hover { background: rgba(74,222,128,0.25); }
-    .btn-reject-all { background: var(--reject-dim); color: var(--reject); }
-    .btn-reject-all:hover { background: rgba(248,113,113,0.25); }
-    .btn-reset-all  { background: var(--surface2); color: var(--text-muted); }
-    .btn-reset-all:hover { color: var(--text); }
+    /* Stats */
+    .stats-bar{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
+    .stat{flex:1;padding:10px 4px;text-align:center;border-right:1px solid var(--border)}
+    .stat:last-child{border-right:none}
+    .sv{font-family:var(--mono);font-size:19px;font-weight:600;display:block}
+    .sl{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted)}
+    .s-total  .sv{color:var(--text)}
+    .s-accept .sv{color:var(--accent)}
+    .s-reject .sv{color:var(--reject)}
+    .s-pending .sv{color:var(--pending)}
 
     /* Entity list */
-    .entity-list {
-      flex: 1;
-      overflow-y: auto;
-      padding: 8px 0;
-    }
-    .entity-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 14px;
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      transition: background 0.1s;
-    }
-    .entity-item:hover { background: var(--surface2); }
-    .entity-item:last-child { border-bottom: none; }
+    .ent-list{flex:1;overflow-y:auto;padding:4px 0}
+    .ent-item{display:flex;align-items:flex-start;gap:8px;padding:8px 14px;border-bottom:1px solid var(--border);transition:background .1s}
+    .ent-item:hover{background:var(--surface2)}
+    .ent-item:last-child{border-bottom:none}
+    .ent-lbl{font-family:var(--mono);font-size:10px;font-weight:600;padding:2px 5px;border-radius:3px;min-width:40px;text-align:center;flex-shrink:0;margin-top:2px}
+    .ent-body{flex:1;overflow:hidden}
+    .ent-text{font-size:13px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .ent-meta{font-size:11px;color:var(--text-muted);margin-top:2px}
+    .ent-sent{font-size:11px;color:var(--text-muted);margin-top:2px;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .ent-acts{display:flex;gap:4px;flex-shrink:0;margin-top:1px}
+    .act-btn{width:24px;height:24px;border:none;border-radius:4px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+    .act-acc{background:var(--accent-dim);color:var(--accent)}
+    .act-acc:hover,.act-acc.on{background:rgba(74,222,128,.3)}
+    .act-rej{background:var(--reject-dim);color:var(--reject)}
+    .act-rej:hover,.act-rej.on{background:rgba(248,113,113,.3)}
+    .sdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px}
+    .d-acc{background:var(--accent)}
+    .d-rej{background:var(--reject)}
+    .d-pen{background:var(--pending);opacity:.6}
 
-    .entity-label {
-      font-family: var(--mono);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      padding: 2px 6px;
-      border-radius: 4px;
-      min-width: 44px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-    .entity-text {
-      flex: 1;
-      font-size: 13.5px;
-      color: var(--text);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .entity-pos {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--text-muted);
-      flex-shrink: 0;
-    }
+    /* Export */
+    .exp-bar{padding:9px 14px;border-top:1px solid var(--border);display:flex;gap:6px;align-items:center;background:var(--surface);flex-shrink:0}
+    .exp-btn{font-family:var(--mono);font-size:11px;font-weight:600;border:1px solid var(--border);border-radius:4px;padding:4px 10px;cursor:pointer;background:transparent;color:var(--text-muted);transition:all .15s}
+    .exp-btn:hover{border-color:var(--accent);color:var(--accent)}
 
-    /* Action buttons per entity */
-    .entity-actions {
-      display: flex;
-      gap: 4px;
-      flex-shrink: 0;
-    }
-    .action-btn {
-      width: 26px;
-      height: 26px;
-      border: none;
-      border-radius: 4px;
-      font-size: 13px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s;
-    }
-    .action-accept { background: var(--accent-dim); color: var(--accent); }
-    .action-accept:hover, .action-accept.active { background: rgba(74,222,128,0.3); }
-    .action-reject { background: var(--reject-dim); color: var(--reject); }
-    .action-reject:hover, .action-reject.active { background: rgba(248,113,113,0.3); }
+    /* Label colours */
+    .lPER,.lPERSON{background:rgba(139,92,246,.15);color:#a78bfa}
+    .lORG{background:rgba(59,130,246,.15);color:#60a5fa}
+    .lLOC,.lGPE{background:rgba(16,185,129,.15);color:#34d399}
+    .lMISC{background:rgba(251,191,36,.15);color:#fbbf24}
+    .lDATE,.lTIME{background:rgba(249,115,22,.15);color:#fb923c}
+    .lMONEY,.lPERCENT{background:rgba(20,184,166,.15);color:#2dd4bf}
+    .lDEF{background:rgba(100,116,139,.15);color:#94a3b8}
 
-    /* Status dot */
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .dot-accepted { background: var(--accent); }
-    .dot-rejected { background: var(--reject); }
-    .dot-pending  { background: var(--pending); opacity: 0.6; }
+    /* Filter page */
+    .filter-layout{display:grid;grid-template-columns:1fr 400px;flex:1;overflow:hidden;min-height:0}
+    .fl-left{display:flex;flex-direction:column;border-right:1px solid var(--border);overflow:hidden}
+    .fl-right{display:flex;flex-direction:column;overflow:hidden}
+    .fv-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0}
+    .fv-btn{padding:8px 14px;cursor:pointer;border:none;background:transparent;color:var(--text-muted);font-family:var(--mono);font-size:11px;font-weight:600;border-bottom:2px solid transparent;transition:all .15s}
+    .fv-btn:hover{color:var(--text)}
+    .fv-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+    .f-list{flex:1;overflow-y:auto;padding:4px 0}
+    .f-item{display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--border)}
+    .f-item:last-child{border-bottom:none}
+    .f-tag{font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600;flex-shrink:0}
+    .f-ok{background:var(--accent-dim);color:var(--accent)}
+    .f-no{background:var(--reject-dim);color:var(--reject)}
+    .f-text{flex:1;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .f-text.kept{color:var(--text)}
+    .f-text.gone{color:var(--text-muted);text-decoration:line-through}
+    .f-freq{font-family:var(--mono);font-size:10px;color:var(--text-muted);flex-shrink:0}
+    .f-reason{font-size:11px;color:var(--text-muted);font-style:italic;flex-shrink:0;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-    /* Export bar */
-    .export-bar {
-      padding: 12px 14px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      gap: 8px;
-      background: var(--surface);
-    }
-    .btn-export {
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 600;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 6px 12px;
-      cursor: pointer;
-      background: transparent;
-      color: var(--text-muted);
-      transition: all 0.15s;
-    }
-    .btn-export:hover { border-color: var(--accent); color: var(--accent); }
+    /* Link page */
+    .link-layout{display:grid;grid-template-columns:260px 1fr;flex:1;overflow:hidden;min-height:0}
+    .ll-left{display:flex;flex-direction:column;border-right:1px solid var(--border);overflow:hidden}
+    .ll-right{display:flex;flex-direction:column;overflow:hidden}
+    .link-toolbar{display:flex;gap:6px;padding:9px 14px;border-bottom:1px solid var(--border);background:var(--surface);flex-wrap:wrap;flex-shrink:0}
+    .ls-bar{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
+    .ls{flex:1;padding:9px 4px;text-align:center;border-right:1px solid var(--border)}
+    .ls:last-child{border-right:none}
+    .lsv{font-family:var(--mono);font-size:16px;font-weight:600;display:block}
+    .lsl{font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted)}
+    .ls-t .lsv{color:var(--text)}
+    .ls-f .lsv{color:var(--accent)}
+    .ls-m .lsv{color:var(--reject)}
+    .ls-p .lsv{color:var(--blue)}
+    .l-list{flex:1;overflow-y:auto;padding:4px 0}
+    .l-item{padding:8px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+    .l-item:hover{background:var(--surface2)}
+    .l-item.sel{background:var(--surface2);border-left:3px solid var(--accent);padding-left:11px}
+    .l-row{display:flex;align-items:center;gap:7px}
+    .l-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+    .ld-f{background:var(--accent)}
+    .ld-m{background:var(--reject);opacity:.6}
+    .ld-p{background:var(--pending);opacity:.5}
+    .l-name{font-size:13px;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .l-lbl{font-family:var(--mono);font-size:9px;padding:1px 4px;border-radius:3px;flex-shrink:0}
+    .l-sub{font-size:10px;color:var(--text-muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--mono)}
+    .l-detail{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:10px}
+    .l-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px;color:var(--text-muted);font-family:var(--mono);font-size:12px}
+    .l-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+    .l-card-head{padding:14px 16px;border-bottom:1px solid var(--border)}
+    .l-card-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px}
+    .l-card-badges{display:flex;gap:6px;flex-wrap:wrap}
+    .l-card-body{padding:14px 16px}
+    .l-abstract{font-size:13px;line-height:1.8;color:var(--text-dim)}
+    .l-wiki-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--blue);text-decoration:none;padding:5px 12px;background:var(--blue-dim);border-radius:4px;border:1px solid rgba(96,165,250,.2)}
+    .l-wiki-btn:hover{background:rgba(96,165,250,.2)}
+    .t-badge{font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:10px;background:var(--surface2);border:1px solid var(--border);color:var(--text-muted)}
+    .src-sp{background:var(--purple-dim);color:var(--purple)}
+    .src-wi{background:var(--blue-dim);color:var(--blue)}
+    .src-lk{background:rgba(251,191,36,.12);color:#fbbf24}
+    /* Candidatos alternativos */
+    .cand-list{margin-top:12px;border-top:1px solid var(--border);padding-top:10px}
+    .cand-title{font-size:10px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+    .cand-title::after{content:'';flex:1;height:1px;background:var(--border)}
+    .cand-item{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;cursor:pointer;border:1px solid transparent;margin-bottom:3px;transition:all .15s}
+    .cand-item:hover{background:var(--surface2);border-color:var(--border)}
+    .cand-item.selected{background:rgba(96,165,250,.08);border-color:rgba(96,165,250,.35)}
+    .cand-item.selected .cand-name{color:var(--blue)}
+    .cand-rank{font-family:var(--mono);font-size:10px;color:var(--text-muted);min-width:16px;text-align:right}
+    .cand-name{flex:1;font-size:12px;color:var(--text)}
+    .cand-types{font-size:9px;color:var(--text-muted);font-family:var(--mono);white-space:nowrap}
+    .cand-src{font-size:9px;padding:1px 5px;border-radius:3px;font-family:var(--mono);flex-shrink:0}
+    .cand-src.sp{background:var(--purple-dim);color:var(--purple)}
+    .cand-src.lk{background:rgba(251,191,36,.1);color:#fbbf24}
+    .cand-src.wi{background:var(--blue-dim);color:var(--blue)}
+    /* Lista negra */
+    .bl-panel{border-top:1px solid var(--border);padding:10px 14px;flex-shrink:0;background:var(--surface)}
+    .bl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+    .bl-title{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em}
+    .bl-count{font-family:var(--mono);font-size:10px;background:rgba(248,113,113,.15);color:var(--reject);border:1px solid rgba(248,113,113,.3);border-radius:3px;padding:1px 6px}
+    .bl-tags{display:flex;flex-wrap:wrap;gap:4px;max-height:56px;overflow-y:auto;margin-bottom:6px;min-height:20px}
+    .bl-tag{display:flex;align-items:center;gap:3px;font-family:var(--mono);font-size:10px;background:var(--reject-dim);color:var(--reject);border:1px solid rgba(248,113,113,.3);border-radius:3px;padding:2px 6px}
+    .bl-tag button{background:none;border:none;color:var(--reject);cursor:pointer;font-size:10px;padding:0;line-height:1;opacity:.7}
+    .bl-tag button:hover{opacity:1}
+    .bl-add-row{display:flex;gap:6px}
+    .bl-input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-family:var(--mono);font-size:11px;padding:4px 8px;outline:none}
+    .bl-input:focus{border-color:var(--reject)}
+    .btn-bl-add{font-size:11px;padding:4px 10px;background:var(--reject-dim);border:1px solid rgba(248,113,113,.3);color:var(--reject);border-radius:var(--r);cursor:pointer}
+    .btn-bl-add:hover{background:rgba(248,113,113,.2)}
+    /* Botón añadir a lista negra en cada resultado eliminado */
+    .btn-bl{font-size:9px;font-family:var(--mono);padding:1px 5px;background:var(--reject-dim);border:1px solid rgba(248,113,113,.2);color:var(--reject);border-radius:3px;cursor:pointer;white-space:nowrap;opacity:.7}
+    .btn-bl:hover{opacity:1}
+    /* Badge especial para el modelo ensamble */
+    .model-pill.ensemble{border-color:rgba(74,222,128,.4);color:var(--accent)}
+    .model-pill.ensemble.active{background:linear-gradient(135deg,rgba(74,222,128,.15),rgba(96,165,250,.12));border-color:var(--accent);color:var(--accent)}
+    .ensemble-tag{font-family:var(--mono);font-size:9px;background:rgba(74,222,128,.15);color:var(--accent);border:1px solid rgba(74,222,128,.3);border-radius:3px;padding:1px 5px;margin-left:4px;vertical-align:middle}
+    .rule-badge{font-family:var(--mono);font-size:9px;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border);border-radius:3px;padding:1px 5px;margin-left:4px;cursor:help}
+    .sc-wrap{margin-top:10px}
+    .sc-lbl{font-size:10px;color:var(--text-muted);font-family:var(--mono);margin-bottom:4px}
+    .sc-track{height:4px;background:var(--border);border-radius:2px}
+    .sc-fill{height:4px;border-radius:2px;background:var(--accent)}
+    .dbp-row{font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-top:8px;word-break:break-all}
+    .dbp-row a{color:var(--purple)}
+    .l-notfound{padding:30px;text-align:center;color:var(--text-muted)}
+    .lang-sel{font-family:var(--mono);font-size:11px;background:var(--surface2);color:var(--text-dim);border:1px solid var(--border);border-radius:4px;padding:4px 8px;cursor:pointer;outline:none}
 
-    /* Empty / loading states */
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      gap: 8px;
-      color: var(--text-muted);
-      font-family: var(--mono);
-      font-size: 12px;
-      padding: 40px 20px;
-    }
-    .empty-icon { font-size: 28px; opacity: 0.3; }
-
-    .spinner {
-      width: 14px; height: 14px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-      display: inline-block;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Scrollbars */
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-    /* Label color palette */
-    .lbl-PER, .lbl-PERSON   { background: rgba(139,92,246,0.15); color: #a78bfa; }
-    .lbl-ORG                 { background: rgba(59,130,246,0.15); color: #60a5fa; }
-    .lbl-LOC, .lbl-GPE      { background: rgba(16,185,129,0.15); color: #34d399; }
-    .lbl-MISC                { background: rgba(251,191,36,0.15); color: #fbbf24; }
-    .lbl-DATE, .lbl-TIME    { background: rgba(249,115,22,0.15); color: #fb923c; }
-    .lbl-MONEY, .lbl-PERCENT { background: rgba(20,184,166,0.15); color: #2dd4bf; }
-    .lbl-default             { background: rgba(100,116,139,0.15); color: #94a3b8; }
+    /* Misc */
+    .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px;color:var(--text-muted);font-family:var(--mono);font-size:12px;padding:30px}
+    .ei{font-size:26px;opacity:.3}
+    .spin{width:13px;height:13px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .6s linear infinite;display:inline-block}
+    @keyframes sp{to{transform:rotate(360deg)}}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:transparent}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
   </style>
 </head>
 <body>
@@ -415,280 +253,689 @@
   <h1><span>Filtrado semiautomático</span> de entidades nombradas</h1>
 </header>
 
-<div class="layout">
+<div class="mode-bar">
+  <button class="mode-btn active" id="mb-ner"    onclick="goTo('ner',    this)">⬡ Extracción NER</button>
+  <button class="mode-btn"        id="mb-filter" onclick="goTo('filter', this)">⬢ Filtrado</button>
+  <button class="mode-btn"        id="mb-link"   onclick="goTo('link',   this)">⬡ Enlace Wikipedia</button>
+</div>
 
-  <!-- ── Panel izquierdo: entrada + texto anotado ── -->
-  <div class="panel-left">
-    <div class="section-header">
-      <span class="section-title">Texto de entrada</span>
-      <select class="model-select" id="modelSelect">
-        {% for key in models %}
-        <option value="{{ key }}" {% if key == 'es' %}selected{% endif %}>{{ key }}</option>
-        {% endfor %}
-      </select>
-    </div>
+<!-- ══ NER ══════════════════════════════════════════════════════════════════ -->
+<div class="page active" id="page-ner">
 
-    <div class="textarea-wrap">
-      <textarea id="inputText"
-        placeholder="Introduce aquí el texto que quieres analizar…&#10;&#10;Ejemplo: El presidente Pedro Sánchez se reunió con representantes de Google en Madrid el 15 de marzo de 2024."
-        spellcheck="false"></textarea>
-    </div>
-
-    <div class="analyze-bar">
-      <button class="btn btn-primary" id="analyzeBtn" onclick="analyze()">
-        Analizar
-      </button>
-      <button class="btn btn-ghost" onclick="clearAll()">Limpiar</button>
-      <span id="statusMsg" style="font-family:var(--mono);font-size:11px;color:var(--text-muted);margin-left:auto;"></span>
-    </div>
-
-    <!-- Texto con entidades resaltadas -->
-    <div class="highlighted-section" id="highlightedSection" style="display:none;">
-      <div class="section-title" style="margin-bottom:12px;">Vista anotada</div>
-      <div class="highlighted-text" id="highlightedText"></div>
-    </div>
+  <!-- Selector de modelo -->
+  <div class="model-selector-bar">
+    <label>Modelo NER:</label>
+    <div class="model-pills" id="modelPills"></div>
   </div>
 
-  <!-- ── Panel derecho: lista de entidades ── -->
-  <div class="panel-right">
-
-    <!-- Estadísticas -->
-    <div class="stats-bar">
-      <div class="stat stat-total">
-        <span class="stat-value" id="statTotal">0</span>
-        <span class="stat-label">Total</span>
+  <div class="layout">
+    <div class="panel-left">
+      <div class="sec-header">
+        <span class="sec-title">Texto de entrada</span>
+        <span id="activeBadge" style="font-family:var(--mono);font-size:11px;color:var(--accent)"></span>
       </div>
-      <div class="stat stat-accept">
-        <span class="stat-value" id="statAccept">0</span>
-        <span class="stat-label">Aceptadas</span>
+      <div class="ta-wrap">
+        <textarea id="inputText"
+          placeholder="Introduce aquí el texto a analizar… (Ctrl+Enter para analizar)&#10;&#10;Ejemplo: El presidente Pedro Sánchez se reunió con representantes de Google en Madrid el 15 de marzo de 2024."
+          spellcheck="false"></textarea>
       </div>
-      <div class="stat stat-reject">
-        <span class="stat-value" id="statReject">0</span>
-        <span class="stat-label">Rechazadas</span>
+      <div class="action-bar">
+        <button class="btn btn-primary" id="analyzeBtn" onclick="analyze()">Analizar</button>
+        <button class="btn btn-ghost"   onclick="clearNer()">Limpiar</button>
+        <span class="status" id="nerStatus"></span>
       </div>
-      <div class="stat stat-pending">
-        <span class="stat-value" id="statPending">0</span>
-        <span class="stat-label">Pendientes</span>
-      </div>
-    </div>
-
-    <!-- Acciones en bloque -->
-    <div class="bulk-bar">
-      <button class="btn-small btn-accept-all" onclick="bulkAction('accept_all')">✓ Todas</button>
-      <button class="btn-small btn-reject-all" onclick="bulkAction('reject_all')">✗ Ninguna</button>
-      <button class="btn-small btn-reset-all"  onclick="bulkAction('reset_all')">↺ Resetear</button>
-    </div>
-
-    <!-- Lista de entidades -->
-    <div class="entity-list" id="entityList">
-      <div class="empty-state">
-        <div class="empty-icon">◈</div>
-        <div>Introduce un texto y pulsa Analizar</div>
+      <div id="hlSection" style="display:none">
+        <div class="hl-section">
+          <div class="sec-title" style="margin-bottom:8px">Vista anotada · clic para cambiar estado</div>
+          <div class="hl-text" id="hlText"></div>
+        </div>
       </div>
     </div>
-
-    <!-- Exportar -->
-    <div class="export-bar">
-      <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted);margin-right:4px;">Exportar:</span>
-      <button class="btn-export" onclick="exportEntities('json', true)">JSON ↗</button>
-      <button class="btn-export" onclick="exportEntities('csv', true)">CSV ↗</button>
-      <button class="btn-export" onclick="exportEntities('json', false)" title="Todo (no solo aceptadas)">JSON (todo)</button>
+    <div class="panel-right">
+      <div class="stats-bar">
+        <div class="stat s-total" ><span class="sv" id="stTotal" >0</span><span class="sl">Total</span></div>
+        <div class="stat s-accept"><span class="sv" id="stAccept">0</span><span class="sl">Aceptadas</span></div>
+        <div class="stat s-reject"><span class="sv" id="stReject">0</span><span class="sl">Rechazadas</span></div>
+        <div class="stat s-pending"><span class="sv" id="stPend"  >0</span><span class="sl">Pendientes</span></div>
+      </div>
+      <div class="action-bar">
+        <button class="btn-sm btn-green" onclick="bulk('accept_all')">✓ Todas</button>
+        <button class="btn-sm btn-red"   onclick="bulk('reject_all')">✗ Ninguna</button>
+        <button class="btn-sm btn-gray"  onclick="bulk('reset_all')">↺ Reset</button>
+      </div>
+      <div class="ent-list" id="entList">
+        <div class="empty"><div class="ei">◈</div><div>Selecciona modelo y analiza</div></div>
+      </div>
+      <div class="exp-bar">
+        <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted)">Exportar:</span>
+        <button class="exp-btn" onclick="expNer('json',true)">JSON ✓</button>
+        <button class="exp-btn" onclick="expNer('csv', true)">CSV ✓</button>
+        <button class="exp-btn" onclick="expNer('json',false)">JSON todo</button>
+      </div>
     </div>
+  </div>
+</div>
 
+<!-- ══ FILTRADO ══════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-filter">
+  <div class="filter-layout">
+    <div class="fl-left">
+      <div class="sec-header">
+        <span class="sec-title">Entidades (una por línea)</span>
+        <button class="btn-sm btn-purple" onclick="nerToFilter()">← Desde NER</button>
+      </div>
+      <div class="ta-wrap">
+        <textarea id="filterInput"
+          placeholder="Pega entidades, una por línea:&#10;Pedro Sánchez&#10;Google&#10;el&#10;Madrid&#10;de la"
+          spellcheck="false"></textarea>
+      </div>
+      <div class="action-bar">
+        <button class="btn btn-primary" id="filterBtn" onclick="runFilter()">Filtrar</button>
+        <button class="btn btn-ghost"   onclick="clearFilter()">Limpiar</button>
+        <span class="status" id="filterStatus"></span>
+      </div>
+      <!-- Panel de lista negra -->
+      <div class="bl-panel">
+        <div class="bl-header">
+          <span class="bl-title">🚫 Lista negra del usuario</span>
+          <span class="bl-count" id="blCount">0 términos</span>
+        </div>
+        <div class="bl-tags" id="blTags">
+          <span style="color:var(--text-muted);font-size:11px">Sin términos. Los eliminados manualmente aparecen aquí.</span>
+        </div>
+        <div class="bl-add-row">
+          <input class="bl-input" id="blInput" placeholder="Añadir término…" onkeydown="if(event.key==='Enter')addToBlacklist()"/>
+          <button class="btn-bl-add" onclick="addToBlacklist()">+ Añadir</button>
+          <button class="btn btn-ghost" style="font-size:11px;padding:4px 8px" onclick="clearBlacklist()">Vaciar</button>
+        </div>
+      </div>
+    </div>
+    <div class="fl-right">
+      <div class="stats-bar">
+        <div class="stat s-total" ><span class="sv" id="fTotal"  >0</span><span class="sl">Total</span></div>
+        <div class="stat s-accept"><span class="sv" id="fKept"   >0</span><span class="sl">Conservadas</span></div>
+        <div class="stat s-reject"><span class="sv" id="fRemoved">0</span><span class="sl">Eliminadas</span></div>
+        <div class="stat s-pending"><span class="sv" id="fPct"   >—</span><span class="sl">% OK</span></div>
+      </div>
+      <div class="fv-tabs">
+        <button class="fv-btn active" onclick="setFV('all',   this)">Todas</button>
+        <button class="fv-btn"        onclick="setFV('kept',  this)">✓ Conservadas</button>
+        <button class="fv-btn"        onclick="setFV('gone',  this)">✗ Eliminadas</button>
+      </div>
+      <div class="f-list" id="fList">
+        <div class="empty"><div class="ei">⬢</div><div>Introduce entidades y filtra</div></div>
+      </div>
+      <div class="exp-bar">
+        <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted)">Exportar:</span>
+        <button class="exp-btn" onclick="expFilter('json',true)">JSON ✓</button>
+        <button class="exp-btn" onclick="expFilter('csv', true)">CSV ✓</button>
+        <button class="exp-btn" onclick="expFilter('json',false)">JSON todo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ENLACE WIKIPEDIA ══════════════════════════════════════════════════════ -->
+<div class="page" id="page-link">
+  <div class="link-layout">
+    <div class="ll-left">
+      <div class="sec-header">
+        <span class="sec-title">Entidades</span>
+        <select class="lang-sel" id="linkLang"><option value="es">ES</option><option value="en">EN</option></select>
+      </div>
+      <div class="link-toolbar">
+        <button class="btn-sm btn-purple" onclick="nerToLink()">← NER</button>
+        <button class="btn-sm btn-purple" onclick="filterToLink()">← Filtrado</button>
+        <button class="btn-sm btn-green"  id="linkBtn" onclick="runLink()">Enlazar</button>
+        <button class="btn-sm btn-gray"   onclick="clearLink()">Limpiar</button>
+      </div>
+      <div class="ls-bar">
+        <div class="ls ls-t"><span class="lsv" id="lTotal">0</span><span class="lsl">Total</span></div>
+        <div class="ls ls-f"><span class="lsv" id="lFound">0</span><span class="lsl">Enlazadas</span></div>
+        <div class="ls ls-m"><span class="lsv" id="lMiss" >0</span><span class="lsl">Sin enlace</span></div>
+        <div class="ls ls-p"><span class="lsv" id="lPct"  >—</span><span class="lsl">% OK</span></div>
+      </div>
+      <div class="l-list" id="lList">
+        <div class="empty"><div class="ei">⬡</div><div>Carga entidades desde NER o Filtrado</div></div>
+      </div>
+      <div class="exp-bar">
+        <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted)">Exportar:</span>
+        <button class="exp-btn" onclick="expLink('json',true)">JSON ✓</button>
+        <button class="exp-btn" onclick="expLink('csv', true)">CSV ✓</button>
+        <button class="exp-btn" onclick="expLink('json',false)">JSON todo</button>
+      </div>
+    </div>
+    <div class="ll-right">
+      <div class="l-detail" id="lDetail">
+        <div class="l-empty"><div class="ei">⬡</div><div>Selecciona una entidad de la lista</div></div>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-  // ── Paleta de colores por etiqueta ──────────────────────────────────────────
-  const LABEL_COLORS = {
-    PER: '#a78bfa', PERSON: '#a78bfa',
-    ORG: '#60a5fa',
-    LOC: '#34d399', GPE: '#34d399',
-    MISC: '#fbbf24',
-    DATE: '#fb923c', TIME: '#fb923c',
-    MONEY: '#2dd4bf', PERCENT: '#2dd4bf',
-  };
+// ── Estado global ─────────────────────────────────────────────────────────────
+var NER_MODEL    = 'spacy_lg';
+var NER_ENTS     = [];
+var NER_TEXT     = '';
+var FILTER_RES   = [];
+var FILTER_VIEW  = 'all';
+var LINK_ENTS    = [];
+var LINK_RES     = [];
 
-  function labelColor(label) {
-    return LABEL_COLORS[label] || '#94a3b8';
-  }
+// ── Modelos: carga dinámica desde /api/models ─────────────────────────────────
+var MODELS = [];
 
-  function labelClass(label) {
-    const known = ['PER','PERSON','ORG','LOC','GPE','MISC','DATE','TIME','MONEY','PERCENT'];
-    return known.includes(label) ? `lbl-${label}` : 'lbl-default';
-  }
-
-  // ── Estado local ────────────────────────────────────────────────────────────
-  let currentEntities = [];
-
-  // ── Analizar ────────────────────────────────────────────────────────────────
-  async function analyze() {
-    const text = document.getElementById('inputText').value.trim();
-    const model = document.getElementById('modelSelect').value;
-    if (!text) return;
-
-    const btn = document.getElementById('analyzeBtn');
-    const status = document.getElementById('statusMsg');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>';
-    status.textContent = '';
-
-    try {
-      const res = await fetch('/api/analyze', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({text, model})
-      });
-      const data = await res.json();
-
-      if (data.error) {
-        status.textContent = '⚠ ' + data.error;
-        return;
-      }
-
-      currentEntities = data.entities;
-      renderEntities(currentEntities);
-      renderHighlighted(data.text || text, currentEntities);
-      renderStats(data.stats);
-      status.textContent = `modelo: ${data.model}`;
-
-    } catch(e) {
-      status.textContent = '⚠ Error de conexión';
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = 'Analizar';
-    }
-  }
-
-  // ── Renderizar lista de entidades ───────────────────────────────────────────
-  function renderEntities(entities) {
-    const list = document.getElementById('entityList');
-    if (!entities.length) {
-      list.innerHTML = '<div class="empty-state"><div class="empty-icon">◈</div><div>No se detectaron entidades</div></div>';
-      return;
-    }
-
-    list.innerHTML = entities.map(e => {
-      const dot = e.accepted === true ? 'dot-accepted' :
-                  e.accepted === false ? 'dot-rejected' : 'dot-pending';
-      return `
-      <div class="entity-item" id="item-${e.start_char}">
-        <div class="status-dot ${dot}"></div>
-        <span class="entity-label ${labelClass(e.label)}">${e.label}</span>
-        <span class="entity-text" title="${e.text}">${e.text}</span>
-        <span class="entity-pos">${e.start_char}:${e.end_char}</span>
-        <div class="entity-actions">
-          <button class="action-btn action-accept ${e.accepted===true?'active':''}"
-            onclick="updateEntity(${e.start_char}, 'accept')" title="Aceptar">✓</button>
-          <button class="action-btn action-reject ${e.accepted===false?'active':''}"
-            onclick="updateEntity(${e.start_char}, 'reject')" title="Rechazar">✗</button>
-        </div>
-      </div>`;
-    }).join('');
-  }
-
-  // ── Renderizar texto anotado ─────────────────────────────────────────────────
-  function renderHighlighted(text, entities) {
-    const section = document.getElementById('highlightedSection');
-    const container = document.getElementById('highlightedText');
-    section.style.display = 'block';
-
-    if (!entities.length) {
-      container.textContent = text;
-      return;
-    }
-
-    // Ordenar entidades por posición
-    const sorted = [...entities].sort((a, b) => a.start_char - b.start_char);
-    let html = '';
-    let cursor = 0;
-
-    for (const e of sorted) {
-      // Texto entre entidades
-      html += escapeHtml(text.slice(cursor, e.start_char));
-      const statusClass = e.accepted === true ? 'ent-accepted' :
-                          e.accepted === false ? 'ent-rejected' : 'ent-pending';
-      html += `<span class="ent-mark ${statusClass}" 
-                     style="border: 1px solid ${labelColor(e.label)}33"
-                     onclick="cycleEntity(${e.start_char})"
-                     title="${e.label}: ${e.text}">` +
-              escapeHtml(e.text) +
-              `<span class="label-tag">${e.label}</span></span>`;
-      cursor = e.end_char;
-    }
-    html += escapeHtml(text.slice(cursor));
-    container.innerHTML = html;
-  }
-
-  function escapeHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
-
-  // ── Ciclar estado al hacer clic en el texto ─────────────────────────────────
-  async function cycleEntity(startChar) {
-    const ent = currentEntities.find(e => e.start_char === startChar);
-    if (!ent) return;
-    const action = ent.accepted === null ? 'accept' :
-                   ent.accepted === true  ? 'reject' : 'reset';
-    await updateEntity(startChar, action);
-  }
-
-  // ── Actualizar entidad ──────────────────────────────────────────────────────
-  async function updateEntity(startChar, action) {
-    const res = await fetch('/api/update', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({start_char: startChar, action})
+async function loadModels() {
+  try {
+    var r = await fetch('/api/models');
+    var catalog = await r.json();
+    MODELS = Object.entries(catalog).map(function(entry) {
+      var key = entry[0], v = entry[1];
+      return {
+        key:        key,
+        name:       v.name,
+        desc:       v.desc,
+        backend:    v.backend,
+        components: v.components || [],
+      };
     });
-    const data = await res.json();
-    currentEntities = data.entities;
-    renderEntities(currentEntities);
-    renderHighlighted(document.getElementById('inputText').value, currentEntities);
-    renderStats(data.stats);
+  } catch(e) {
+    // Fallback: lista base si la API no responde
+    MODELS = [
+      {key:'spacy_lg',    name:'spaCy es_core_news_lg',          desc:'Rápido · sin GPU',       backend:'spacy',    components:[]},
+      {key:'beto',        name:'BETO-NER',                        desc:'BERT español',            backend:'hf',       components:[]},
+      {key:'spanberta',   name:'SpanBERTa-NER',                   desc:'RoBERTa español',         backend:'hf',       components:[]},
+      {key:'stanza_es',   name:'Stanza-ES',                       desc:'Stanford Stanza',         backend:'stanza',   components:[]},
+      {key:'xlm_roberta', name:'XLM-RoBERTa-large',               desc:'Multilingüe',             backend:'hf',       components:[]},
+      {key:'ensemble',    name:'Ensamble (Stanza + XLM-RoBERTa)', desc:'Modelo combinado',        backend:'ensemble', components:['stanza_es','xlm_roberta']},
+    ];
   }
+  renderModelPills();
+}
 
-  // ── Acciones en bloque ──────────────────────────────────────────────────────
-  async function bulkAction(action) {
-    const res = await fetch('/api/bulk', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({action})
-    });
-    const data = await res.json();
-    currentEntities = data.entities;
-    renderEntities(currentEntities);
-    renderHighlighted(document.getElementById('inputText').value, currentEntities);
-    renderStats(data.stats);
-  }
-
-  // ── Estadísticas ────────────────────────────────────────────────────────────
-  function renderStats(stats) {
-    document.getElementById('statTotal').textContent  = stats.total;
-    document.getElementById('statAccept').textContent = stats.accepted;
-    document.getElementById('statReject').textContent = stats.rejected;
-    document.getElementById('statPending').textContent= stats.pending;
-  }
-
-  // ── Exportar ────────────────────────────────────────────────────────────────
-  function exportEntities(format, onlyAccepted) {
-    const param = onlyAccepted ? 'true' : 'false';
-    window.location.href = `/api/export/${format}?only_accepted=${param}`;
-  }
-
-  // ── Limpiar ─────────────────────────────────────────────────────────────────
-  function clearAll() {
-    document.getElementById('inputText').value = '';
-    currentEntities = [];
-    renderEntities([]);
-    renderStats({total:0, accepted:0, rejected:0, pending:0});
-    document.getElementById('highlightedSection').style.display = 'none';
-    document.getElementById('statusMsg').textContent = '';
-  }
-
-  // ── Enter para analizar ──────────────────────────────────────────────────────
-  document.getElementById('inputText').addEventListener('keydown', e => {
-    if (e.ctrlKey && e.key === 'Enter') analyze();
+function renderModelPills() {
+  var pillsDiv = document.getElementById('modelPills');
+  pillsDiv.innerHTML = '';
+  MODELS.forEach(function(m) {
+    var isEns = m.backend === 'ensemble';
+    var p = document.createElement('button');
+    p.className = 'model-pill' + (m.key === NER_MODEL ? ' active' : '') + (isEns ? ' ensemble' : '');
+    // Para el ensamble, mostrar nombre corto + badge ⚡
+    if (isEns) {
+      p.innerHTML = '⚡ Ensamble<span class="ensemble-tag">Stanza+XLM</span>';
+    } else {
+      // Nombre corto legible (eliminar prefijo largo)
+      var shortName = m.name
+        .replace('es_core_news_lg','lg')
+        .replace('-large','')
+        .replace('Stanford ','')
+        .replace('-finetuned-conll03-english','');
+      p.textContent = shortName;
+    }
+    // Tooltip: nombre completo + componentes si los hay
+    var tip = m.name + '\n' + m.desc;
+    if (m.components && m.components.length) {
+      tip += '\nComponentes: ' + m.components.join(' + ');
+    }
+    p.title = tip;
+    p.onclick = (function(model, pill) {
+      return function() {
+        document.querySelectorAll('.model-pill').forEach(function(x){x.classList.remove('active');});
+        pill.classList.add('active');
+        NER_MODEL = model.key;
+        var badge = document.getElementById('activeBadge');
+        badge.textContent = model.name;
+        if (model.backend === 'ensemble') {
+          badge.style.color = 'var(--accent)';
+        } else {
+          badge.style.color = '';
+        }
+      };
+    })(m, p);
+    pillsDiv.appendChild(p);
   });
+  // Activar badge del modelo por defecto
+  var first = MODELS.find(function(m){ return m.key === NER_MODEL; }) || MODELS[0];
+  if (first) document.getElementById('activeBadge').textContent = first.name;
+}
+
+// Cargar modelos al arrancar
+loadModels();
+
+// ── Navegación ────────────────────────────────────────────────────────────────
+function goTo(mode, btn) {
+  document.querySelectorAll('.mode-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('page-'+mode).classList.add('active');
+}
+
+// ── Utilidades ────────────────────────────────────────────────────────────────
+var LC={PER:'#a78bfa',PERSON:'#a78bfa',ORG:'#60a5fa',LOC:'#34d399',GPE:'#34d399',MISC:'#fbbf24',DATE:'#fb923c',TIME:'#fb923c',MONEY:'#2dd4bf',PERCENT:'#2dd4bf'};
+var LK=['PER','PERSON','ORG','LOC','GPE','MISC','DATE','TIME','MONEY','PERCENT'];
+function lc(l){return LC[l]||'#94a3b8';}
+function lcls(l){return LK.includes(l)?'l'+l:'lDEF';}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// ── NER: analizar ─────────────────────────────────────────────────────────────
+async function analyze() {
+  var text=document.getElementById('inputText').value.trim();
+  if(!text)return;
+  var btn=document.getElementById('analyzeBtn'),st=document.getElementById('nerStatus');
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span>';
+  st.textContent='Analizando…';NER_TEXT=text;
+  try{
+    var r=await fetch('/api/analyze',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({text:text,model:NER_MODEL})});
+    var d=await r.json();
+    if(d.error){st.textContent='⚠ '+d.error;return;}
+    NER_ENTS=d.entities;
+    renderNerList();renderHL();renderNerStats(d.stats);
+    st.textContent=d.model+' · '+d.entities.length+' entidades';
+  }catch(e){st.textContent='⚠ Error de conexión';}
+  finally{btn.disabled=false;btn.innerHTML='Analizar';}
+}
+
+function renderNerList(){
+  var el=document.getElementById('entList');
+  if(!NER_ENTS.length){el.innerHTML='<div class="empty"><div class="ei">◈</div><div>Sin entidades</div></div>';return;}
+  el.innerHTML=NER_ENTS.map(function(e){
+    var d=e.accepted===true?'d-acc':e.accepted===false?'d-rej':'d-pen';
+    var sc=e.score?'<span style="font-family:var(--mono);font-size:10px;color:var(--blue);background:var(--blue-dim);padding:1px 4px;border-radius:3px">'+(e.score*100).toFixed(0)+'%</span>':'';
+    var sent=e.sentence?'<div class="ent-sent" title="'+esc(e.sentence)+'">'+esc(e.sentence)+'</div>':'';
+    // Traza del ensamble: mostrar regla y etiquetas de cada componente
+    var ensTrace='';
+    if(e.source==='ensemble'&&e.rule){
+      var ruleLabel={
+        'stanza_solo':           'solo Stanza',
+        'stanza_confirmado_por_xlm': 'acuerdo',
+        'stanza_pese_a_xlm':     'Stanza prevalece',
+        'xlm_ORG_corrige_stanza':'XLM corrige→ORG',
+      }[e.rule]||e.rule;
+      var sTag=e.label_stanza?'<span style="color:var(--accent);font-size:9px">S:'+esc(e.label_stanza)+'</span> ':'';
+      var xTag=e.label_xlm?'<span style="color:var(--blue);font-size:9px">X:'+esc(e.label_xlm)+'</span> ':'';
+      ensTrace='<div style="margin-top:3px;display:flex;gap:4px;align-items:center;flex-wrap:wrap">'+
+        sTag+xTag+
+        '<span class="rule-badge" title="Regla aplicada por el ensamble">'+esc(ruleLabel)+'</span>'+
+      '</div>';
+    }
+    return '<div class="ent-item">'+
+      '<div class="sdot '+d+'"></div>'+
+      '<span class="ent-lbl '+lcls(e.label)+'">'+e.label+'</span>'+
+      '<div class="ent-body">'+
+        '<div class="ent-text">'+esc(e.text)+'</div>'+
+        '<div class="ent-meta">'+(e.label_desc||'')+' '+sc+'</div>'+
+        sent+
+        ensTrace+
+      '</div>'+
+      '<div class="ent-acts">'+
+        '<button class="act-btn act-acc '+(e.accepted===true?'on':'')+'" onclick="upEnt('+e.start_char+',\'accept\')">✓</button>'+
+        '<button class="act-btn act-rej '+(e.accepted===false?'on':'')+'" onclick="upEnt('+e.start_char+',\'reject\')">✗</button>'+
+      '</div></div>';
+  }).join('');
+}
+
+function renderHL(){
+  var sec=document.getElementById('hlSection'),con=document.getElementById('hlText');
+  sec.style.display='block';
+  if(!NER_ENTS.length){con.textContent=NER_TEXT;return;}
+  var sorted=NER_ENTS.slice().sort(function(a,b){return a.start_char-b.start_char;}),html='',cur=0;
+  sorted.forEach(function(e){
+    html+=esc(NER_TEXT.slice(cur,e.start_char));
+    var cls=e.accepted===true?'ea':e.accepted===false?'er':'ep';
+    html+='<span class="em '+cls+'" style="border:1px solid '+lc(e.label)+'33" onclick="cycleEnt('+e.start_char+')" title="'+esc(e.text)+'">'+esc(e.text)+'<span class="lt">'+e.label+'</span></span>';
+    cur=e.end_char;
+  });
+  html+=esc(NER_TEXT.slice(cur));
+  con.innerHTML=html;
+}
+
+function renderNerStats(s){
+  document.getElementById('stTotal').textContent=s.total;
+  document.getElementById('stAccept').textContent=s.accepted;
+  document.getElementById('stReject').textContent=s.rejected;
+  document.getElementById('stPend').textContent=s.pending;
+}
+
+async function cycleEnt(sc){
+  var e=NER_ENTS.find(function(e){return e.start_char===sc;});if(!e)return;
+  await upEnt(sc,e.accepted===null?'accept':e.accepted===true?'reject':'reset');
+}
+async function upEnt(sc,action){
+  var r=await fetch('/api/update',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({start_char:sc,action:action})});
+  var d=await r.json();NER_ENTS=d.entities;renderNerList();renderHL();renderNerStats(d.stats);
+}
+async function bulk(action){
+  var r=await fetch('/api/bulk',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({action:action})});
+  var d=await r.json();NER_ENTS=d.entities;renderNerList();renderHL();renderNerStats(d.stats);
+}
+function expNer(fmt,only){window.location.href='/api/export/'+fmt+'?only_accepted='+only;}
+function clearNer(){
+  document.getElementById('inputText').value='';
+  NER_ENTS=[];NER_TEXT='';
+  renderNerList();renderNerStats({total:0,accepted:0,rejected:0,pending:0});
+  document.getElementById('hlSection').style.display='none';
+  document.getElementById('nerStatus').textContent='';
+}
+document.getElementById('inputText').addEventListener('keydown',function(e){if(e.ctrlKey&&e.key==='Enter')analyze();});
+
+// ── FILTRADO ──────────────────────────────────────────────────────────────────
+function nerToFilter(){
+  if(!NER_ENTS.length){alert('Primero extrae entidades en la pestaña NER.');return;}
+  var seen={},out=[];
+  NER_ENTS.forEach(function(e){if(!seen[e.text]){seen[e.text]=true;out.push(e.text);}});
+  document.getElementById('filterInput').value=out.join('\n');
+  goTo('filter',document.getElementById('mb-filter'));
+}
+
+async function runFilter(){
+  var raw=document.getElementById('filterInput').value.trim();
+  if(!raw)return;
+  var btn=document.getElementById('filterBtn'),st=document.getElementById('filterStatus');
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span>';st.textContent='Filtrando…';
+  var ents=raw.split('\n').map(function(l){return l.trim();}).filter(Boolean);
+  try{
+    var r=await fetch('/api/filter',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({entities:ents})});
+    var d=await r.json();
+    if(d.error){st.textContent='⚠ '+d.error;return;}
+    FILTER_RES=d.results;
+    if(d.blacklist){SESSION_BL=d.blacklist;renderBlacklist();}
+    document.getElementById('fTotal').textContent=d.stats.total;
+    document.getElementById('fKept').textContent=d.stats.kept;
+    document.getElementById('fRemoved').textContent=d.stats.removed;
+    document.getElementById('fPct').textContent=d.stats.pct_kept+'%';
+    renderFilterList();
+    st.textContent=d.stats.kept+' conservadas de '+d.stats.total;
+  }catch(e){st.textContent='⚠ Error de conexión';}
+  finally{btn.disabled=false;btn.innerHTML='Filtrar';}
+}
+
+function setFV(v,btn){
+  FILTER_VIEW=v;
+  document.querySelectorAll('.fv-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  renderFilterList();
+}
+
+function renderFilterList(){
+  var list=document.getElementById('fList');
+  var rows=FILTER_RES;
+  if(FILTER_VIEW==='kept') rows=FILTER_RES.filter(function(r){return r.kept;});
+  if(FILTER_VIEW==='gone') rows=FILTER_RES.filter(function(r){return !r.kept;});
+  if(!rows.length){list.innerHTML='<div class="empty"><div class="ei">⬢</div><div>Sin resultados</div></div>';return;}
+  list.innerHTML=rows.map(function(r){
+    var tag=r.kept?'<span class="f-tag f-ok">✓</span>':'<span class="f-tag f-no">✗</span>';
+    var cls=r.kept?'kept':'gone';
+    // Botón "→ BL" solo en las eliminadas (para añadirlas a la lista negra)
+    var blBtn=(!r.kept)?
+      '<button class="btn-bl" title="Añadir a lista negra" onclick="addToBlacklist(\''+esc(r.text)+'\')">+ BL</button>':'';
+    return '<div class="f-item">'+tag+
+      '<span class="f-text '+cls+'" title="'+esc(r.text)+'">'+esc(r.text)+'</span>'+
+      '<span class="f-freq">×'+r.frequency+'</span>'+
+      '<span class="f-reason" title="'+esc(r.reason||'')+'">'+esc(r.filter_id?'['+r.filter_id+'] ':'')+esc(r.reason||'')+'</span>'+
+      blBtn+
+    '</div>';
+  }).join('');
+}
+
+// ── Gestión de la lista negra ─────────────────────────────────────────────────
+var SESSION_BL = [];   // copia local para renderizado rápido
+
+function renderBlacklist(){
+  var tags = document.getElementById('blTags');
+  var count = document.getElementById('blCount');
+  count.textContent = SESSION_BL.length + ' términos';
+  if(!SESSION_BL.length){
+    tags.innerHTML='<span style="color:var(--text-muted);font-size:11px">Sin términos.</span>';
+    return;
+  }
+  tags.innerHTML = SESSION_BL.map(function(t){
+    return '<span class="bl-tag">'+esc(t)+
+      '<button title="Eliminar" onclick="removeFromBlacklist(\''+esc(t)+'\')">×</button></span>';
+  }).join('');
+}
+
+async function addToBlacklist(term){
+  var t = (term !== undefined) ? term : document.getElementById('blInput').value.trim();
+  if(!t) return;
+  try{
+    var r = await fetch('/api/blacklist/add',{method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({terms:[t]})});
+    var d = await r.json();
+    SESSION_BL = d.blacklist;
+    renderBlacklist();
+    document.getElementById('blInput').value='';
+    // Si el término ya está en FILTER_RES como conservado, volver a filtrar
+    if(FILTER_RES.some(function(r){return r.kept && r.text===t;})){
+      runFilter();
+    }
+  }catch(e){}
+}
+
+async function removeFromBlacklist(term){
+  try{
+    var r = await fetch('/api/blacklist/remove',{method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({terms:[term]})});
+    var d = await r.json();
+    SESSION_BL = d.blacklist;
+    renderBlacklist();
+  }catch(e){}
+}
+
+async function clearBlacklist(){
+  try{
+    var r = await fetch('/api/blacklist/clear',{method:'POST'});
+    var d = await r.json();
+    SESSION_BL = d.blacklist;
+    renderBlacklist();
+  }catch(e){}
+}
+
+// Cargar la lista negra al iniciar
+async function initBlacklist(){
+  try{
+    var r = await fetch('/api/blacklist');
+    var d = await r.json();
+    SESSION_BL = d.blacklist || [];
+    renderBlacklist();
+  }catch(e){}
+}
+initBlacklist();
+
+async function expFilter(fmt,only){
+  var r=await fetch('/api/filter/export/'+fmt,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({results:FILTER_RES,only_kept:only})});
+  var b=await r.blob(),url=URL.createObjectURL(b),a=document.createElement('a');
+  a.href=url;a.download='filtrado.'+fmt;a.click();URL.revokeObjectURL(url);
+}
+
+function clearFilter(){
+  document.getElementById('filterInput').value='';
+  FILTER_RES=[];FILTER_VIEW='all';
+  document.getElementById('fList').innerHTML='<div class="empty"><div class="ei">⬢</div><div>Introduce entidades y filtra</div></div>';
+  ['fTotal','fKept','fRemoved'].forEach(function(id){document.getElementById(id).textContent='0';});
+  document.getElementById('fPct').textContent='—';
+  document.getElementById('filterStatus').textContent='';
+}
+
+// ── ENLACE WIKIPEDIA ──────────────────────────────────────────────────────────
+function nerToLink(){
+  if(!NER_ENTS.length){alert('Primero extrae entidades en la pestaña NER.');return;}
+  var seen={},out=[];
+  NER_ENTS.forEach(function(e){if(!seen[e.text]){seen[e.text]=true;out.push({text:e.text,label:e.label,label_desc:e.label_desc||''});}});
+  LINK_ENTS=out;LINK_RES=[];
+  renderLinkList(LINK_ENTS.map(function(e){return Object.assign({},e,{found:null,source:'pending'});}));
+  updLinkStats({total:LINK_ENTS.length,found:0,not_found:0,pct_found:0});
+  goTo('link',document.getElementById('mb-link'));
+}
+
+function filterToLink(){
+  var kept=FILTER_RES.filter(function(r){return r.kept;});
+  if(!kept.length){alert('No hay entidades conservadas en el filtrado.');return;}
+  var seen={},out=[];
+  kept.forEach(function(r){if(!seen[r.text]){seen[r.text]=true;out.push({text:r.text,label:r.label||'',label_desc:r.label_desc||''});}});
+  LINK_ENTS=out;LINK_RES=[];
+  renderLinkList(LINK_ENTS.map(function(e){return Object.assign({},e,{found:null,source:'pending'});}));
+  updLinkStats({total:LINK_ENTS.length,found:0,not_found:0,pct_found:0});
+  goTo('link',document.getElementById('mb-link'));
+}
+
+async function runLink(){
+  if(!LINK_ENTS.length){alert('Carga entidades primero con ← NER o ← Filtrado.');return;}
+  var btn=document.getElementById('linkBtn'),lang=document.getElementById('linkLang').value;
+  btn.textContent='…';btn.disabled=true;
+  try{
+    var r=await fetch('/api/link',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({entities:LINK_ENTS,lang:lang})});
+    var ct=r.headers.get('content-type')||'';
+    if(!ct.includes('application/json')){
+      var txt=await r.text();
+      var m=txt.match(/<pre[^>]*>([\s\S]*?)<\/pre>/);
+      alert('Error del servidor:\n'+(m?m[1].trim().slice(0,400):txt.slice(0,400)));
+      return;
+    }
+    var d=await r.json();
+    if(d.error){alert('Error: '+d.error+(d.detail?'\n\n'+d.detail.slice(0,400):''));return;}
+    LINK_RES=d.results;
+    renderLinkList(LINK_RES);
+    updLinkStats(d.stats);
+    var first=document.querySelector('.l-item');
+    if(first)showDetail(0,first);
+  }catch(e){alert('Error inesperado: '+e.message);}
+  finally{btn.textContent='Enlazar';btn.disabled=false;}
+}
+
+function updLinkStats(s){
+  document.getElementById('lTotal').textContent=s.total;
+  document.getElementById('lFound').textContent=s.found;
+  document.getElementById('lMiss').textContent=s.not_found;
+  document.getElementById('lPct').textContent=s.pct_found!=null?s.pct_found+'%':'—';
+}
+
+function renderLinkList(results){
+  var list=document.getElementById('lList');
+  if(!results.length){list.innerHTML='<div class="empty"><div class="ei">⬡</div><div>Sin entidades</div></div>';return;}
+  list.innerHTML=results.map(function(r,i){
+    var pend=r.found===null||r.source==='pending';
+    var dcls=pend?'ld-p':r.found?'ld-f':'ld-m';
+    var sub=r.wiki_title?esc(r.wiki_title):(r.label_desc||r.label||'');
+    return '<div class="l-item" id="li-'+i+'" onclick="showDetail('+i+',this)">'+
+      '<div class="l-row">'+
+        '<div class="l-dot '+dcls+'"></div>'+
+        '<span class="l-name" title="'+esc(r.text)+'">'+esc(r.text)+'</span>'+
+        '<span class="l-lbl '+lcls(r.label)+'">'+esc(r.label||'')+'</span>'+
+      '</div>'+
+      (sub?'<div class="l-sub">'+sub+'</div>':'')+
+    '</div>';
+  }).join('');
+}
+
+function showDetail(i,el){
+  document.querySelectorAll('.l-item').forEach(function(x){x.classList.remove('sel');});
+  el.classList.add('sel');
+  var r=LINK_RES.length>i?LINK_RES[i]:null;
+  var det=document.getElementById('lDetail');
+  if(!r||r.source==='pending'){
+    det.innerHTML='<div class="l-empty"><div class="ei">⬡</div><div>Pulsa Enlazar para procesar</div></div>';return;
+  }
+  if(!r.found){
+    det.innerHTML='<div class="l-card"><div class="l-notfound">'+
+      '<div style="font-size:26px;opacity:.3;margin-bottom:10px">∅</div>'+
+      '<div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px">'+esc(r.text)+'</div>'+
+      '<div style="font-size:12px">No se encontró enlace en Wikipedia ni DBpedia.</div>'+
+    '</div></div>';return;
+  }
+  // Índice del candidato actualmente seleccionado (por defecto el primero)
+  if(r._selIdx===undefined) r._selIdx=0;
+  renderDetail(r,i,det);
+}
+
+function renderDetail(r,entIdx,det){
+  var cands=r.candidates||[];
+  var selIdx=r._selIdx||0;
+  // Si hay candidatos usar el seleccionado, si no usar los campos de primer nivel
+  var active = cands.length>selIdx ? cands[selIdx] : r;
+
+  var srcMap={'spotlight':{cls:'src-sp',lbl:'DBpedia Spotlight'},
+              'dbpedia_lookup':{cls:'src-lk',lbl:'DBpedia Lookup'},
+              'wikipedia_api':{cls:'src-wi',lbl:'Wikipedia API'}};
+  var si=srcMap[active.source||r.source]||{cls:'src-wi',lbl:active.source||r.source||'?'};
+
+  var types=(active.types&&active.types.length)
+    ?active.types.map(function(t){return '<span class="t-badge">'+esc(t)+'</span>';}).join(' '):'';
+
+
+
+  var title=active.wiki_title||r.wiki_title||r.text;
+  var wurl=active.wiki_url||r.wiki_url||'';
+  var abstract=active.abstract||r.abstract||'';
+  var uri=active.uri||r.uri||'';
+
+  var abs=abstract
+    ?'<p class="l-abstract">'+esc(abstract)+(abstract.length>=400?'…':'')+'</p>'
+    :'<p style="color:var(--text-muted);font-size:12px">Sin extracto disponible.</p>';
+  var wbtn=wurl?'<a class="l-wiki-btn" href="'+wurl+'" target="_blank">↗ Abrir en Wikipedia</a>':'';
+  var dbp=uri?'<div class="dbp-row">DBpedia URI: <a href="'+uri+'" target="_blank">'+esc(uri)+'</a></div>':'';
+
+  // Panel de candidatos alternativos
+  var candHtml='';
+  if(cands.length>1){
+    var srcShort={'spotlight':'sp','dbpedia_lookup':'lk','wikipedia_api':'wi'};
+    candHtml='<div class="cand-list">'+
+      '<div class="cand-title">'+cands.length+' candidatos — elige el correcto</div>';
+    cands.forEach(function(c,ci){
+      var isSel=ci===selIdx;
+      var ctypes=(c.types&&c.types.length)?c.types.slice(0,3).join(' · '):'';
+      var srcCls=srcShort[c.source]||'wi';
+      var srcLbl={'spotlight':'Spotlight','dbpedia_lookup':'Lookup','wikipedia_api':'Wikipedia'}[c.source]||c.source;
+      candHtml+='<div class="cand-item'+(isSel?' selected':'')+'" '+
+        'onclick="selectCandidate('+entIdx+','+ci+')" title="'+esc(c.wiki_url||'')+'">'+
+        '<span class="cand-rank">'+(ci+1)+'</span>'+
+        '<span class="cand-name">'+esc(c.wiki_title||'')+'</span>'+
+        (ctypes?'<span class="cand-types">'+esc(ctypes)+'</span>':'')+
+        '<span class="cand-src '+srcCls+'">'+srcLbl+'</span>'+
+      '</div>';
+    });
+    candHtml+='</div>';
+  }
+
+  det.innerHTML=
+    '<div class="l-card">'+
+      '<div class="l-card-head">'+
+        '<div class="l-card-title">'+esc(title)+'</div>'+
+        '<div class="l-card-badges"><span class="t-badge '+si.cls+'">'+si.lbl+'</span>'+types+'</div>'+
+      '</div>'+
+      '<div class="l-card-body">'+abs+wbtn+dbp+candHtml+'</div>'+
+    '</div>';
+}
+
+function selectCandidate(entIdx,candIdx){
+  if(!LINK_RES[entIdx]) return;
+  LINK_RES[entIdx]._selIdx=candIdx;
+  var det=document.getElementById('lDetail');
+  renderDetail(LINK_RES[entIdx],entIdx,det);
+}
+
+async function expLink(fmt,only){
+  if(!LINK_RES.length)return;
+  var r=await fetch('/api/link/export/'+fmt,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({results:LINK_RES,only_found:only})});
+  var b=await r.blob(),url=URL.createObjectURL(b),a=document.createElement('a');
+  a.href=url;a.download='enlaces.'+fmt;a.click();URL.revokeObjectURL(url);
+}
+
+function clearLink(){
+  LINK_ENTS=[];LINK_RES=[];
+  renderLinkList([]);
+  updLinkStats({total:0,found:0,not_found:0,pct_found:0});
+  document.getElementById('lDetail').innerHTML='<div class="l-empty"><div class="ei">⬡</div><div>Selecciona una entidad</div></div>';
+}
 </script>
 </body>
 </html>

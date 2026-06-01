@@ -1,0 +1,1261 @@
+
+  pago: 84
+  fraccionamiento: 54
+  plazo: 54
+  trabajo: 43
+  aeat: 38
+  reclamación económico administrativa: 38
+  artículo: 38
+  acuerdo: 36
+  aplazamiento: 35
+  contrato: 35
+  empresa: 34
+  trabajadores: 34
+  intereses de demora: 32
+  recurso de reposición: 31
+  periodo: 30
+  lunes a viernes: 27
+  cl@ve: 27
+  reclamación económico: 25
+  cl@ve pin: 25
+  sistema de autentificación: 24
+  entidades colaboradoras adheridas: 24
+  cuenta: 23
+  económico: 23
+  reclamación: 23
+  recurso: 23
+  adeudo en cuenta: 23
+  través: 23
+  administración tributaria: 22
+  administraciones públicas: 22
+  reglamento general: 21
+  través de representante: 19
+  entidades: 19
+  domiciliación del pago: 18
+  deuda: 18
+  periodo ejecutivo: 18
+  contrato de trabajo: 18
+  sede electrónica: 18
+  domiciliación: 17
+  derecho: 17
+  convenio: 17
+  entidades colaboradoras: 17
+  solicitudes de aplazamiento: 17
+  fraccionamientos de pago: 17
+  pago mediante transferencia: 16
+  autoridad laboral: 15
+  plazo de pago: 15
+  sistema: 14
+  centro de trabajo: 14
+  periodo de consultas: 13
+  autoridad: 13
+  autenticidad verificable: 13
+  persona: 12
+  caso: 12
+  electrónica: 12
+  personas trabajadoras: 12
+  apremio: 11
+  real decreto: 11
+  órgano: 11
+  sistemas de firma: 11
+  tribunal económico: 11
+  rec@t: 11
+  domiciliación bancaria: 11
+  solicitud: 11
+  centros de trabajo: 11
+  recargo del periodo: 10
+  firma electrónica admitidos: 10
+  deudas aplazadas: 10
+  fraccionamiento de pago: 10
+  solicitud de aplazamiento: 10
+  días: 10
+  personas: 10
+  acuerdo de fraccionamiento: 10
+  procedimiento: 9
+  tiempo: 9
+  fecha: 9
+  procedimiento administrativo: 9
+  ingreso: 9
+  centro: 9
+  deudas: 9
+  trabajador: 9
+  día siguiente: 9
+  formación: 9
+  representantes legales: 8
+  fraccionamientos concedidos: 8
+  órgano de recaudación: 8
+  adeudo: 8
+  públicas: 8
+  jornada: 8
+  reglamento: 8
+  comunicación: 8
+  deudas en período: 8
+  acuerdos de denegación: 8
+  denegación de deudas: 8
+  dirección: 8
+  comité de empresa: 8
+  vencimiento del plazo: 8
+  plazo de ingreso: 8
+  fracción incumplida: 8
+  entidad: 7
+  fracciones: 7
+  autorización del pago: 7
+  intereses en aplazamientos: 7
+  pago de aplazamientos: 7
+  número de expediente: 7
+  condiciones: 7
+  inadmisión: 7
+  convenios colectivos: 7
+  contratos de trabajo: 7
+  convenio colectivo: 7
+  agencia estatal: 7
+  actuaciones administrativas automatizadas: 7
+  comisión: 7
+  causa: 7
+  salario mínimo interprofesional: 7
+  reducción de jornada: 7
+  seguridad social: 7
+  empresario: 7
+  dirección general: 7
+  fines de adopción: 7
+  ingreso en período: 7
+  puesto de trabajo: 6
+  número: 6
+  actuaciones de enajenación: 6
+  oficina pública dependiente: 6
+  cartas de pago: 6
+  contratos: 6
+  comités de empresa: 6
+  véase: 6
+  seguridad: 6
+  general: 6
+  comité: 6
+  demora devengados: 6
+  través de entidades: 6
+  periodo voluntario: 6
+  formación profesional: 6
+  período: 6
+  vía de apremio: 5
+  efectos: 5
+  encabezamiento: 5
+  día hábil inmediato: 5
+  solicitudes: 5
+  información: 5
+  revisión en vía: 5
+  proceso electoral: 5
+  vigencia del aplazamiento: 5
+  atención telefónica: 5
+  delegados de personal: 5
+  liquidación de intereses: 5
+  véanse: 5
+  periodo de suspensión: 5
+  real: 5
+  ley general: 5
+  texto refundido: 5
+  extinción del contrato: 5
+  suspensión del contrato: 5
+  guarda con fines: 5
+  correo electrónico: 5
+  “suscripción: 5
+  aplicación móvil”: 5
+  fecha de vencimiento: 5
+  jornada de trabajo: 5
+  salario: 5
+  horas: 5
+  miembros del comité: 5
+  fracción incumplida incluyese: 5
+  período voluntario: 5
+  cuenta abierta: 4
+  gastos de gestión: 4
+  plazos de pago: 4
+  tiempo de trabajo: 4
+  despido: 4
+  representantes: 4
+  despido colectivo: 4
+  reposición: 4
+  dificultades transitorias: 4
+  obligaciones tributarias: 4
+  potestad discrecional reconocida: 4
+  potestad discrecional: 4
+  resultase acreedor: 4
+  pago al día: 4
+  puesto: 4
+  seguro de caución: 4
+  impuesto: 4
+  garantía: 4
+  normativa vigente: 4
+  general tributaria: 4
+  disposiciones legales: 4
+  disposiciones: 4
+  condiciones de trabajo: 4
+  elecciones: 4
+  oficina pública: 4
+  pacto: 4
+  personal: 4
+  prórrogas: 4
+  comisión representativa: 4
+  oportunidades entre mujeres: 4
+  igualdad de trato: 4
+  igualdad: 4
+  suspensión: 4
+  fuerza mayor: 4
+  empleo: 4
+  duración determinada: 4
+  consultas: 4
+  trabajo a tiempo: 4
+  disposición adicional: 4
+  consulta: 4
+  momento: 4
+  sistema de avisos: 4
+  suscripción al sistema: 4
+  avisos: 4
+  gestión de usuarios: 4
+  ingreso en periodo: 4
+  tiempo parcial: 4
+  adopción: 4
+  fines: 4
+  período ejecutivo: 4
+  domiciliación de pagos: 3
+  tipo de cuenta: 3
+  modalidades de domiciliación: 3
+  solicitudes de modificación: 3
+  procedimiento de despido: 3
+  declaraciones aduaneras: 3
+  deudas aduaneras: 3
+  fraccionamiento del pago: 3
+  caución: 3
+  aval: 3
+  duración máxima: 3
+  medidas: 3
+  importe: 3
+  autoridad laboral competente: 3
+  bienes del patrimonio: 3
+  pago con bienes: 3
+  ingreso otorgados: 3
+  herramientas de asistencia: 3
+  gestiones de aplazamientos: 3
+  asistencia virtual: 3
+  pagos fraccionados: 3
+  comisión negociadora: 3
+  contratos de duración: 3
+  persona trabajadora: 3
+  salario mínimo: 3
+  criterio de caja: 3
+  diciembre: 3
+  sexiesdecies: 3
+  valor añadido: 3
+  fuerza mayor temporal: 3
+  oficina: 3
+  social: 3
+  decreto legislativo: 3
+  meses: 3
+  ejecución de resoluciones: 3
+  ingresos a cuenta: 3
+  resoluciones firmes total: 3
+  recurso contencioso administrativo: 3
+  recuperación de ayudas: 3
+  efectos de registro: 3
+  convenios: 3
+  véase contrato: 3
+  abuso de derecho: 3
+  decreto: 3
+  forma: 3
+  expedientes de regulación: 3
+  discriminación por razón: 3
+  contratos a tiempo: 3
+  negociación colectiva: 3
+  ley orgánica: 3
+  notificaciones”: 3
+  correo: 3
+  mesa: 3
+  plazo máximo: 3
+  causas económicas: 3
+  producción: 3
+  suspensión en vía: 3
+  texto: 3
+  petición: 3
+  modificación de aplazamiento: 3
+  acuerdo mediante escrito: 3
+  contrato de formación: 3
+  práctica profesional: 3
+  objeto del contrato: 3
+  voto: 3
+  agencia: 3
+  vencimientos de aplazamientos: 3
+  expediente de regulación: 3
+  requerimiento: 3
+  título: 3
+  puestos: 3
+  materia de revisión: 3
+  recaudación: 3
+  representación: 3
+  plazo de interposición: 3
+  interposición del recurso: 3
+  informe: 3
+  fecha límite personalizada: 3
+  liechtenstein: 2
+  zona sepa: 2
+  entidad colaboradora española: 2
+  cuenta bancaria: 2
+  fraccionamiento de deudas: 2
+  víctimas del terrorismo: 2
+  acciones individuales iniciadas: 2
+  caducidad del procedimiento: 2
+  apertura del periodo: 2
+  deudas en relación: 2
+  aplazamiento especial: 2
+  condiciones fijadas: 2
+  día del plazo: 2
+  devengo de intereses: 2
+  organización del trabajo: 2
+  semana: 2
+  salud: 2
+  trabajo nocturno: 2
+  normas de desarrollo: 2
+  razón de sexo: 2
+  garantía recíproca: 2
+  recíproca: 2
+  orden de domiciliación: 2
+  crédito: 2
+  admisión de garantía: 2
+  gestión recaudatoria: 2
+  horas extraordinarias: 2
+  hora: 2
+  número máximo: 2
+  presentación por medios: 2
+  cesionario: 2
+  cedente: 2
+  transmisión: 2
+  código: 2
+  sistema de firma: 2
+  atribución de competencias: 2
+  disposiciones reglamentarias: 2
+  fraccionamiento a euros: 2
+  presencialmente: 2
+  mecanismo red: 2
+  organizaciones sindicales: 2
+  pago mediante adeudo: 2
+  acuerdo de denegación: 2
+  utilización de tecnologías: 2
+  denegación: 2
+  proceso: 2
+  teléfono de lunes: 2
+  fraude de ley: 2
+  delegado de personal: 2
+  sigilo: 2
+  ayudas covid: 2
+  prórrogas posteriores: 2
+  europea: 2
+  agencia tributaria: 2
+  número de trabajadores: 2
+  trabajo afectados: 2
+  véanse comité: 2
+  véase derecho: 2
+  medidas urgentes: 2
+  disfrutarlas de forma: 2
+  madre biológica: 2
+  datos: 2
+  consigne: 2
+  “apremio: 2
+  línea “ingresos: 2
+  modalidad de domiciliación: 2
+  impuestos especiales: 2
+  existencia de fuerza: 2
+  impugnaciones: 2
+  procedimiento arbitral: 2
+  disposición adicional cuadragésima: 2
+  contratos por circunstancias: 2
+  empresas de trabajo: 2
+  trabajo temporal: 2
+  ley 36/2011: 2
+  36/2011: 2
+  jurisdicción social: 2
+  servicio público: 2
+  servicio: 2
+  inicio: 2
+  causas justificativas: 2
+  sindicato: 2
+  disfrute: 2
+  entidades de derecho: 2
+  empresario al comité: 2
+  emisión del acuerdo: 2
+  periodo de aplicación: 2
+  ámbito: 2
+  elecciones a delegados: 2
+  censo: 2
+  contratas: 2
+  extinción: 2
+  sanciones: 2
+  modificación: 2
+  sociedad de garantía: 2
+  nivel de ingresos: 2
+  causas: 2
+  ingresos ordinarios: 2
+  métodos de trabajo: 2
+  ingresos: 2
+  trabajo del personal: 2
+  trabajo a distancia: 2
+  duración: 2
+  salario por año: 2
+  prestación de servicios: 2
+  servicios en trabajos: 2
+  periodo de cálculo: 2
+  duración del contrato: 2
+  acto: 2
+  contrato de relevo: 2
+  jubilación: 2
+  edad: 2
+  tramitación del procedimiento: 2
+  efectos suspensivos: 2
+  causa de suspensión: 2
+  subcontratas suscritas: 2
+  trabajadores a tiempo: 2
+  ausencia de discriminación: 2
+  nivel retributivo correspondiente: 2
+  funciones desempeñadas: 2
+  nivel retributivo: 2
+  cambios: 2
+  plazos concedidos: 2
+  solicitud de compensación: 2
+  semanas de disfrute: 2
+  semanas: 2
+  progenitor: 2
+  resolución judicial: 2
+  decisión administrativa: 2
+  contrato a tiempo: 2
+  número de horas: 2
+  ámbito sectorial estatal: 2
+  acta: 2
+  tablones de anuncios: 2
+  centros especiales: 2
+  artes escénicas: 2
+  sistema de formación: 2
+  regulación temporal: 2
+  regulación: 2
+  requerimiento de datos: 2
+  requerimiento a través: 2
+  documento: 2
+  plazo máximo señalado: 2
+  número de votos: 2
+  delegados: 2
+  elección: 2
+  registro: 2
+  puestos de trabajo: 2
+  horas complementarias pactadas: 2
+  preaviso: 2
+  plazo de preaviso: 2
+  circunstancias: 2
+  contrato de duración: 2
+  carácter: 2
+  vía administrativa: 2
+  dependencia regional: 2
+  fuerza mayor alegada: 2
+  mujeres: 2
+  formación en alternancia: 2
+  especialidades formativas: 2
+  decisión de modificación: 2
+  decisión: 2
+  representación legal: 2
+  procedimientos automatizados: 2
+  clasificación profesional: 2
+  servicios: 2
+  derechos: 2
+  deberes: 2
+  manera: 2
+  riesgos laborales: 2
+  trabajo a turnos: 2
+  acuerdo de inadmisión: 2
+  enajenación de bienes: 2
+  disposición: 2
+  deliberaciones: 2
+  órganos de representación: 2
+  miembros: 2
+  contratos formativos: 2
+  normas comunes aplicables: 2
+  promoción de elecciones: 2
+  sindicatos: 2
+  administraciones: 2
+  fecha de pago: 2
+  disposiciones de desarrollo: 2
+  años: 2
+  número de días: 2
+  zona: 1
+  colaboradora: 1
+  violencia de género: 1
+  acreditación del motivo: 1
+  motivo: 1
+  víctimas de violencia: 1
+  consideración de víctimas: 1
+  personas convivientes: 1
+  permanencia a favor: 1
+  trabajadores nocturnos: 1
+  régimen de turnos: 1
+  adscripción voluntaria: 1
+  procesos productivos continuos: 1
+  organización: 1
+  trato desfavorable dispensado: 1
+  acoso por razón: 1
+  razón: 1
+  origen racial: 1
+  orientación sexual: 1
+  modificaciones operadas: 1
+  razón de lengua: 1
+  acciones formativas tendentes: 1
+  razón de origen: 1
+  religión: 1
+  corresponsabilidad: 1
+  registro de facturas: 1
+  facturas impagadas: 1
+  deuda tributaria: 1
+  entidades bancarias adheridas: 1
+  recibos de pago: 1
+  medidas cautelares: 1
+  extraordinarias: 1
+  horas extraor: 1
+  horas extraordinarias realizadas: 1
+  descanso retribuido: 1
+  desempleo: 1
+  jornada ordinaria: 1
+  número máximo anual: 1
+  cambio de titularidad: 1
+  consecuencias: 1
+  cambio: 1
+  información mencionada: 1
+  antelación: 1
+  código seguro: 1
+  seguro verificación: 1
+  orden eha: 1
+  mínimos de derecho: 1
+  derecho necesario: 1
+  relación laboral: 1
+  usos: 1
+  obligaciones concernientes: 1
+  objeto lícito: 1
+  sucursales bancarias: 1
+  plan de recualificación: 1
+  modalidad sectorial: 1
+  consejo: 1
+  ministros: 1
+  mecanismo: 1
+  recualificación: 1
+  nivel estatal: 1
+  seguro: 1
+  inicio del periodo: 1
+  iniciación del proceso: 1
+  convocatoria: 1
+  requisitos establecidos: 1
+  promoción: 1
+  vigencia: 1
+  partes: 1
+  contenidos prorrogados: 1
+  vigencia del convenio: 1
+  acuerdos: 1
+  cláusulas convencionales: 1
+  denuncia del convenio: 1
+  grupo homogéneo: 1
+  acuerdos interprofesionales: 1
+  pacto en contrario: 1
+  trámites destacados: 1
+  extinciones de contratos: 1
+  extinciones: 1
+  contratos al amparo: 1
+  número de extinciones: 1
+  empresario en virtud: 1
+  recurso a medidas: 1
+  delegado: 1
+  mancomunadamente: 1
+  sufragio libre: 1
+  sigilo profesional: 1
+  número siguiente: 1
+  competencias establecidas: 1
+  pago electrónico: 1
+  firma electrónica: 1
+  clave: 1
+  autentificación: 1
+  proporción al número: 1
+  centros: 1
+  inicio del procedimiento: 1
+  procedimiento de modificación: 1
+  letra: 1
+  marco de contratas: 1
+  persona sustituida: 1
+  contrato de sustitución: 1
+  derecho a reserva: 1
+  reserva de puesto: 1
+  permanencia en caso: 1
+  véanse salario: 1
+  prioridad de permanencia: 1
+  cese por invalidez: 1
+  caso de nacimiento: 1
+  entrada en vigor: 1
+  marzo: 1
+  contratos de fomento: 1
+  ii solicitud: 1
+  consultas de duración: 1
+  caso de impugnaciones: 1
+  impugnaciones promovidas: 1
+  días hábiles: 1
+  actos del día: 1
+  expediente administrativo electoral: 1
+  expediente electoral administrativo: 1
+  estabilización del empleo: 1
+  necesidades de recualificación: 1
+  puesta a disposición: 1
+  solución de continuidad: 1
+  condición de fijas: 1
+  administración: 1
+  «boletín: 1
+  ámbito territorial: 1
+  organismos de igualdad: 1
+  órgano público competente: 1
+  sanción de nulidad: 1
+  condición de persona: 1
+  persona trabajadora fija: 1
+  criterios: 1
+  documento justificativo: 1
+  contratación de carácter: 1
+  véase sindicación: 1
+  cálculo de indemnización: 1
+  aplicación del título: 1
+  derecho al ejercicio: 1
+  desplazamientos de localidad: 1
+  acuerdo de aplazamiento: 1
+  salarios devengados: 1
+  apertura de expediente: 1
+  incumplimiento alegado: 1
+  efectos del despido: 1
+  requisitos omitidos: 1
+  causas de discriminación: 1
+  violación de derechos: 1
+  libertades públicas: 1
+  escrito al trabajador: 1
+  incapacidad temporal: 1
+  calendario de vacaciones: 1
+  vacaciones: 1
+  incapacidad: 1
+  vacaciones anuales retribuidas: 1
+  párrafo anterior coincida: 1
+  pactado en convenio: 1
+  incapacidad temporal derivada: 1
+  exclusión del ámbito: 1
+  ámbito de aplicación: 1
+  véanse contratos: 1
+  véanse descanso: 1
+  párrafo del artículo: 1
+  derecho público vinculadas: 1
+  adicional: 1
+  derechos de conciliación: 1
+  párrafo: 1
+  adicional decimonovena: 1
+  ejercicio a tiempo: 1
+  periodo de prueba: 1
+  prueba: 1
+  resolución a instancia: 1
+  trabajadoras por razón: 1
+  instancia: 1
+  inicio del embarazo: 1
+  pacto en convenio: 1
+  evolución: 1
+  supuestos de subcontratación: 1
+  obligaciones recíprocas: 1
+  situación: 1
+  emisión de informe: 1
+  uso del periodo: 1
+  límites de disfrute: 1
+  limitación del régimen: 1
+  madre: 1
+  situación de incapacidad: 1
+  solicitud con respecto: 1
+  laudos arbitrales: 1
+  laudos: 1
+  plazos fijados: 1
+  laudos dictados: 1
+  ámbito de relaciones: 1
+  condiciones de empleo: 1
+  materias de índole: 1
+  criterios de razonabilidad: 1
+  mesa electoral: 1
+  elecciones en centros: 1
+  censo laboral: 1
+  comunicación del propósito: 1
+  ejecución de contratas: 1
+  mesa con criterios: 1
+  acta de escrutinio: 1
+  contratas mercantiles: 1
+  periodos de ejecución: 1
+  realización de trabajos: 1
+  trabajos de naturaleza: 1
+  empresa de trabajo: 1
+  extinción colectivas: 1
+  supuestos de modificación: 1
+  sucesión de empresa: 1
+  concursal: 1
+  especialidades previstas: 1
+  caso de concurso: 1
+  julio: 1
+  profesionales especializados: 1
+  mónaco: 1
+  prescripción: 1
+  faltas: 1
+  derechos al descanso: 1
+  graduación de faltas: 1
+  empresas en virtud: 1
+  descanso del trabajador: 1
+  comunicación escrita: 1
+  minoración: 1
+  virtud de incumplimientos: 1
+  acciones derivadas: 1
+  número de personas: 1
+  organizativas: 1
+  distancia: 1
+  capítulo: 1
+  términos previstos: 1
+  términos: 1
+  días de salario: 1
+  indemnización por despido: 1
+  indemnizatorio: 1
+  año de servicio: 1
+  periodos de tiempo: 1
+  tiempo de prestación: 1
+  regulación de empleo: 1
+  importe indemnizatorio resultante: 1
+  importe indemnizatorio: 1
+  fijos- discontinuos: 1
+  pago del salario: 1
+  anticipos a cuenta: 1
+  discontinuos: 1
+  derecho al salario: 1
+  salario a comisión: 1
+  adeudado: 1
+  documentación del salario: 1
+  lugar convenidos: 1
+  percepciones del trabajador: 1
+  entidades formativas acreditadas: 1
+  entidad de formación: 1
+  requisitos de tutoría: 1
+  periodos anuales coincidentes: 1
+  persona tutora designada: 1
+  persona tutora: 1
+  formación teórica dispensada: 1
+  plan: 1
+  seguimiento al plan: 1
+  créditos concursales: 1
+  objeto del procedimiento: 1
+  concurso de acreedores: 1
+  edad de jubilación: 1
+  trabajador jubilado: 1
+  jubilación ordinaria: 1
+  trabajador sustituido: 1
+  partes legitimadas: 1
+  subsector de actividad: 1
+  efectos desestimatorios: 1
+  límite de edad: 1
+  órgano correspondiente: 1
+  decisión de extensión: 1
+  cuenta propia: 1
+  véanse faltas: 1
+  actividades por estado: 1
+  obligaciones de registro: 1
+  jornada diaria inferior: 1
+  jornada diaria: 1
+  posibilidad de microacreditaciones: 1
+  obtención de práctica: 1
+  microacreditaciones: 1
+  situaciones de incapacidad: 1
+  extinción de contratos: 1
+  real decreto-: 1
+  enero: 1
+  guarda: 1
+  expiración del convenio: 1
+  unidad productiva autónoma: 1
+  unidad productiva: 1
+  obligaciones: 1
+  obligaciones laborales nacidas: 1
+  empresario subrogado: 1
+  obligaciones laborales: 1
+  tiempo completo: 1
+  trabajador a tiempo: 1
+  tiempo completo comparable: 1
+  empresas de inserción: 1
+  contrato formativo: 1
+  actividades de tutoría: 1
+  plan formativo individual: 1
+  regulación del régimen: 1
+  medio de contrato: 1
+  texto del plan: 1
+  límites de edad: 1
+  plan formativo: 1
+  registro administrativo correspondiente: 1
+  empresas: 1
+  mes posterior: 1
+  votación: 1
+  interventores: 1
+  papeletas de votos: 1
+  acta según modelo: 1
+  lugar de trabajo: 1
+  escrutinio al empresario: 1
+  resultado del escrutinio: 1
+  voto por correo: 1
+  presidente: 1
+  resultado: 1
+  casos de contratas: 1
+  adicional vigesimoctava: 1
+  auxiliares necesarias: 1
+  actividades técnicas: 1
+  legislativo 1/2013: 1
+  actividades: 1
+  relación laboral especial: 1
+  vencimientos del año: 1
+  vigesimoctava: 1
+  tributaria: 1
+  consideración de acto: 1
+  acciones formativas: 1
+  acciones: 1
+  suspensiones de contratos: 1
+  consanguinidad: 1
+  administrador de sociedad: 1
+  servicio con persona: 1
+  cuestión litigiosa: 1
+  árbitros: 1
+  relación de servicio: 1
+  administradores de entidades: 1
+  principios de imparcialidad: 1
+  enemistad manifiesta: 1
+  duración del mandato: 1
+  objeto de inadmisión: 1
+  fraccionamiento referenciada: 1
+  cuotas repercutidas: 1
+  tributos repercutidos: 1
+  ingreso del importe: 1
+  tiempo superior: 1
+  titulación: 1
+  títulos de grado: 1
+  nivel de estudios: 1
+  periodos de formación: 1
+  realización de práctica: 1
+  práctica: 1
+  finalización del periodo: 1
+  candidatos proclamados: 1
+  elección para delegados: 1
+  caso de empate: 1
+  aspirantes equivalente: 1
+  percepciones extrasalariales: 1
+  registro salarial: 1
+  sexo: 1
+  percepciones satisfechas: 1
+  salarial: 1
+  valor: 1
+  profesionales: 1
+  remuneración por razón: 1
+  pacto de horas: 1
+  horas ordinarias: 1
+  responsabilidades familiares enunciadas: 1
+  preaviso mínimo: 1
+  empleo estable disponible: 1
+  oscilaciones: 1
+  sustitución de persona: 1
+  habilitante: 1
+  empleo estable: 1
+  carácter reservado: 1
+  deber de sigilo: 1
+  obligación de sigilo: 1
+  ción: 1
+  deber: 1
+  relativo al ámbito: 1
+  empresa al comité: 1
+  sigilo con respecto: 1
+  procedimiento de mediación: 1
+  suspensión del procedimiento: 1
+  requerimiento de subsanación: 1
+  sustitución del periodo: 1
+  justificación documental: 1
+  tramitación del requerimiento: 1
+  facturas: 1
+  septies: 1
+  protección del patrimonio: 1
+  ausencia del centro: 1
+  persona del trabajador: 1
+  inviolabilidad: 1
+  horas de trabajo: 1
+  patrimonio empresarial: 1
+  protección: 1
+  intimidad del trabajador: 1
+  efectos particulares: 1
+  personas progenitoras: 1
+  riesgo: 1
+  contrato por parto: 1
+  hijo: 1
+  supuesto: 1
+  discapacidad del hijo: 1
+  procedimientos tributarios: 1
+  liquidaciones: 1
+  derechos de representación: 1
+  días a partir: 1
+  infracciones: 1
+  representación colectiva: 1
+  infracciones cometidas: 1
+  véanse días: 1
+  pago de salarios: 1
+  causa de despido: 1
+  nacimiento de hijo: 1
+  acogimiento: 1
+  disfrute voluntario: 1
+  fuerza: 1
+  resolución del expediente: 1
+  actividad normalizada: 1
+  salud pública: 1
+  autoridad pública competente: 1
+  permiso del artículo: 1
+  sociedad por acciones: 1
+  derecho de igualdad: 1
+  empresa del derecho: 1
+  mantenimiento del empleo: 1
+  forma de sociedad: 1
+  igualdad entre mujeres: 1
+  modelos de contrato: 1
+  actividad laboral retribuida: 1
+  sistema nacional: 1
+  actividad desempeñada: 1
+  empleo–formación: 1
+  trabajo retribuido: 1
+  actividad: 1
+  modificación sustancial: 1
+  ejecutividad: 1
+  empresario de efectos: 1
+  ley 29/2011: 1
+  límite al encadenamiento: 1
+  encadenamiento de contratos: 1
+  periodos de consultas: 1
+  encadenamiento: 1
+  29/2011: 1
+  profesional: 1
+  contrato por obra: 1
+  convenio colectivo aplicable: 1
+  proporción al tiempo: 1
+  título de grado: 1
+  aplicación del expediente: 1
+  funciones encomendadas: 1
+  incremento de crédito: 1
+  externalizaciones: 1
+  externalizaciones de actividad: 1
+  ascensos: 1
+  sistema de clasificación: 1
+  situaciones de discriminación: 1
+  medidas de acción: 1
+  discriminación: 1
+  acuerdo colectivo: 1
+  promoción profesional: 1
+  antigüedad del trabajador: 1
+  facultades: 1
+  impedimentos imputables: 1
+  trabajo por impedimentos: 1
+  impedimentos: 1
+  hacérsele: 1
+  trabajo realizado: 1
+  inembargabilidad: 1
+  límite de inembargabilidad: 1
+  imposibilidad: 1
+  vez vigente: 1
+  importe del salario: 1
+  índice de precios: 1
+  precios: 1
+  cómputo anual prorrateado: 1
+  periodo de devengo: 1
+  productividad media nacional: 1
+  índice: 1
+  trabajo en común: 1
+  salario mensual: 1
+  grupo: 1
+  jefe del grupo: 1
+  común: 1
+  grupo de trabajadores: 1
+  trabajadores considerado: 1
+  medida: 1
+  respecto: 1
+  jefe: 1
+  obligaciones inherentes: 1
+  trabajo al amparo: 1
+  incremento del tiempo: 1
+  formación profesional continua: 1
+  solicitudes de conversión: 1
+  instrucciones del empresario: 1
+  eficacia del contrato: 1
+  prevención de riesgos: 1
+  deberes básicos: 1
+  medidas de prevención: 1
+  términos fijados: 1
+  obligaciones concretas: 1
+  requerimiento del sindicato: 1
+  ejercicio regular: 1
+  modelo oficial normalizado: 1
+  certificaciones acreditativas: 1
+  autoridad laboral solo: 1
+  reestructuraciones de plantilla: 1
+  copia: 1
+  reestructuraciones: 1
+  ceses totales: 1
+  derechos de información: 1
+  estructura del empleo: 1
+  alertas por catástrofes: 1
+  prioridad aplicativa: 1
+  vigencia de convenios: 1
+  régimen de trabajo: 1
+  convenios de ámbito: 1
+  convenio de empresa: 1
+  convenio sectorial estatal: 1
+  condiciones establecidas: 1
+  prioridad aplicativa prevista: 1
+  lista: 1
+  colegio: 1
+  unidad fraccionaria: 1
+  elecciones a miembros: 1
+  puestos del comité: 1
+  sector de actividad: 1
+  siglas del sindicato: 1
+  aprendizaje: 1
+  funcionario del ámbito: 1
+  véanse contrato: 1
+  censo de electores: 1
+  funcionario: 1
+  obligaciones de tracto: 1
+  tracto único: 1
+  servicios continuados: 1
+  plazo de caducidad: 1
+  duración convenido: 1
+  resolución de contratos: 1
+  tracto: 1
+  cumplimiento de obligaciones: 1
+  continuidad por virtud: 1
+  contenido: 1
+  nivel de dirección: 1
+  criterio del comité: 1
+  opiniones con objeto: 1
+  modificación del estatus: 1
+  empresario al respecto: 1
+  existencia de dificultades: 1
+  anexo: 1
+  disposición adicional tercera: 1
+  contrato fijo: 1
+  regulación del contrato: 1
+  conceptos retributivos: 1
+  garantías del salario: 1
+  retribuciones del personal: 1
+  indemnización por cese: 1
+  procedimiento laboral: 1
+  deliberaciones de asesores: 1
+  asociaciones empresariales: 1
+  respeto al derecho: 1
+  artículo anterior: 1
+  partes negociadoras: 1
+  organizaciones: 1
+  día laborable siguiente: 1
+  denegaciones: 1
+  denegaciones de inscripción: 1
+  discordancia: 1
+  árbitro: 1
+  procedimiento arbitral regulado: 1
+  impugnación de actos: 1
+  existencia de vicios: 1
+  día laborable: 1
+  fecha del ingreso: 1
+  deudas en periodo: 1
+  intereses: 1
+  personas fijas: 1
+  recolocación entre subcontrataciones: 1
+  personas fijas discontinuas: 1
+  periodos de inactividad: 1
+  subcontratas: 1
+  inactividad entre subcontratas: 1
+  celebración de contratas: 1
+  espera de recolocación: 1
+  previsiones de llamamiento: 1
+  contratación: 1
+  obligaciones en materia: 1
+  interventor por mesa: 1
+  candidato: 1
+  trabajadores electores: 1
+  interventor: 1
+  orden: 1
+  orden indicado: 1
+  acta correspondiente: 1
+  reanudación del contrato: 1
+  contratación por tiempo: 1
+  interposición del conflicto: 1
+  decisión empresarial: 1
+  salarios dejados: 1
+  conflicto colectivo: 1
+  entidad gestora: 1
+  diferencias de cotización: 1
+  causa de fuerza: 1
+  expediente: 1
+  empleo por causas: 1
+  recálculo: 1
+  vencimientos de ejercicios: 1
+  órgano representativo: 1
+  intercentros: 1
+  resultados electorales considerados: 1
+  itinerario de especialidades: 1
+  máxima: 1
+  especialidades: 1
+  contratos de formación: 1
+  jornada máxima: 1
+  máxima legal: 1
+  negociación: 1
+  ámbitos del convenio: 1
+  negociación en curso: 1
+  negociaciones por causa: 1
+  convenio colectivo vigente: 1
+  autoridad laboral correspondiente: 1
+  causa de extinción: 1
+  artículos: 1
+  véanse remuneraciones: 1
+  salario mínimo profesional: 1
+  preavisos presentados: 1
+  acuerdo mayoritario: 1
+  sindicatos con capacidad: 1
+  preavisos: 1
+  inadmisión de solicitud: 1
+  causa concreta alegada: 1
+  causas especificadas: 1
+  causas del despido: 1
+  prestaciones por desempleo: 1
+  vigilancia: 1
+  principio de igualdad: 1
+  obras sociales establecidas: 1
+  condiciones de seguridad: 1
+  usos de empresa: 1
+  empresa en vigor: 1
+  disposiciones específicas previstas: 1
+  aplicación del principio: 1
+  acciones legales oportunas: 1
+  horas complementarias: 1
+  conducta laboral sancionable: 1
+  realización de horas: 1
+  realización: 1
+  negativa del trabajador: 1
+  horas complementarias realizadas: 1
+  efecto: 1
+  límites en materia: 1
+  condiciones de realización: 1
+  trabajo dejada vacante: 1
+  disposiciones concordantes: 1
+  elegibles: 1
+  jubilación parcial: 1
+  trabajadores mediante sufragio: 1
+  firmas de electores: 1
+  sindicatos de trabajadores: 1
+  movilidad de personal: 1
+  elecciones de delegados: 1
+  servicios públicos: 1
+  normas reglamentarias: 1
+  admisión al trabajo: 1
+  años en espectáculos: 1
+  espectáculos públicos solo: 1
+  espectáculos públicos: 1
+  actos determinados: 1
+  trabajadores menores: 1
+  trabajos nocturnos: 1
+  realización de trabajo: 1
+  trabajo por descansos: 1
+  relaciones laborales: 1
+  periodo de referencia: 1
+  ritmo de trabajo: 1
+  garantías adicionales: 1
+  carácter especial: 1
+  medidas de internamiento: 1
+  ventura: 1
+  ejecución de medidas: 1
+  relaciones: 1
+  despachos de abogados: 1
+  servicios en despachos: 1
+  operaciones mercantiles: 1
+  formación de especialistas: 1
+  trabajadores con discapacidad: 1
+  marco: 1
+  personas trabajadoras cubiertas: 1
+  período de consultas: 1
+  situación cíclica: 1
+  solicitud empresarial: 1
+  inicio por parte: 1
+  trabajadores fijos: 1
+  días trabajados: 1
+  trabajadores vinculados: 1
+  trabajos: 1
+  negociación del acuerdo: 1
+  compensación económica: 1
+  carácter intersectorial: 1
+  tanto: 1
+  compensación: 1
+  comunicándolo por escrito: 1
+  cargo al empresario: 1
+  dedicación mediante compensación: 1
+  indemnización de daños: 1
+  libertad de trabajo: 1
+  persona de capacidad: 1
+  compensación económica expresa: 1
+  capacidad: 1
+  prestación laboral: 1
+  capacidad limitada: 1
+  forma independiente: 1
+  autoriza expresa: 1
+  representante legal: 1
+  legislación específica: 1
+  cargo: 1
+  consentimiento: 1
+  dehú: 1
+  extranjeros: 1
+  modificaciones: 1
+  días en número: 1
+  decisión extintiva empresarial: 1
+  decisión extintiva: 1
+  trabajadores afectados: 1
+  motivadora: 1
+  derecho a efectos: 1
+  empresa a través: 1
+  atención: 1
+  formas de participación: 1
+  órganos: 1
+  formas: 1
+  perjuicio: 1
+  conformidad: 1
+  participación: 1
+  representación regulados: 1
+  aplazamiento con plazo: 1
+  disposiciones transitorias: 1
+  legislativo 1/1995: 1
+  disposición transitoria: 1
+  ley 20/2014: 1
+  disposiciones transitorias primera: 1
+  setecientos: 1
+  reglamento de procedimiento: 1
+  número de miembros: 1
+  trabajadores representados: 1
+  secretario del comité: 1
+  triple del salario: 1
+  créditos por salarios: 1
+  preferencia: 1
+  preferencia del crédito: 1
+  indemnizaciones por despido: 1
+  créditos con derecho: 1
+  periodos de suspensión: 1
+  cuantía: 1
+  días del salario: 1
+  trabajadoras: 1
+  tutela judicial efectiva: 1
+  trabajo por nacimiento: 1
+  suficiencia de garantías: 1
+  vencimiento: 1
+  complementos salariales: 1
+  unidad de tiempo: 1
+  carácter de consolidables: 1
+  carácter consolidable: 1
+  descanso computables: 1
+  complementos salariales fijados: 1
+  salario en especie: 1
+  periodos de descanso: 1
+  unidad: 1
+  extinciones de mandato: 1
+  comunicación fehaciente: 1
+  mandato: 1
+  asamblea convocada: 1
+  resultase: 1

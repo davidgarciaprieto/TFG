@@ -1,0 +1,214 @@
+Resultados:
+ABSOLUTO: 18 de 18 PER, 81 de 88 LOC, 60 de 66 ORG, 8 de 9 MISC. 169 DE 183 encontradas
+PARCIAL: 18 de 18 PER, 84 de 88 LOC, 60 de 66 ORG, 8 de 9 MISC. 172 DE 183 encontradas
+Falso positivo: 1 RESULTADO: 172 de 184 Predichas
+
+
+Aciertos:
+
+------PER------- 18 
+
+María López (S)
+Javier Ruiz (S)
+Ana Torres (S)
+Carlos Gómez (S)
+Laura Fernández (S)
+Juan Pérez (S)
+Miguel Ángel Rodrígez (S)
+Sofía Castro (S)
+Pedro Sánchez (S)
+Luis Martínez (S)
+Lionel Messi (S)
+Cristiano Ronaldo (S)
+Rafael Nadal (S)
+Fernando Alonso (S)
+Juan Martínez (S)
+Ana Pérez (S)
+Carlos Sainz (S)
+Bad Bunny (S)
+
+------LOC-------
+
+Valencia x2 x2 (S)
+Hospital La Paz (S)
+Madrid x6 x6 (S)
+París x3 x3 (S)
+Sevilla x3 x3 (S)
+México x3 x3 (S)
+Bruselas (S)
+España (S)
+Italia (S)
+Chile (S)
+Alemania x4 x4 (S)
+Europa (S)
+Londres x2 x2 (S)
+California (S)
+Cupertino (S)
+Taiwán (S)
+Corea (S)
+Arizona (S)
+
+África (S)
+Francia x2 x2 (S)
+Suiza (S)
+Reino Unido (S)
+Museo del Prado (S)
+Roma x3 x3 (S)
+Berlín (S)
+Nueva York x2 x2 (S)
+Cancún (S)
+Lisboa (S)
+Portugal (S)
+Tokio (S)
+Osaka (S)
+Antártida (S)
+Ginebra (S)
+Washington (S)
+
+Camp Nou (S)
+Los Ángeles x2 x2(S)
+Mónaco (S)
+Qatar (S)
+Hollywood (S)
+Suecia (S)
+estadio de Wembley(S)
+Buenos Aires  (S)
+Frankfurt (S)
+San José (S)
+Bilbao x2 x2 (S)
+Barcelona x3 x3 (S)
+Mestalla (S)
+Heatrhow (S)
+Dublín (S)
+Florida (S)
+Texas (S)
+
+Valencia (S)---
+India (S)
+El Prat (S)----
+Glasgow (S)
+Miami (S)
+Málaga (S)
+Amazonas (S)---
+Brasil (S)
+China (S)
+Doha (S)
+
+------ORG-------
+
+Universidad de Barcelona (S)
+Banco Santander (S)
+Telefónica (S)
+BBVA (S)
+Inditex (S)
+Repsol (S)
+Iberdrola (S)
+Amazon (S)
+Google (S)
+Microsoft (S)
+Apple (S)
+OpenAI (S)
+Facebook (S)
+
+
+Tesla (S)
+NVIDIA (S)
+Samsung (S)
+Intel (S)
+Hospital Clínic de Barcelona --- (S)
+Pfizer (S)
+Moderna (S)
+OMS (S)
+
+
+AstraZeneca (S)
+Parlamento Europeo (S)
+Tribunal Supremo (S)
+Gobierno de España (S) 
+ONU (S)
+Congreso (S)
+Fiscalia (S)
+Inter Miami (S)
+
+Real Madrid (S)
+FC Barcelona (S)
+NBA (S)
+FIFA (S)
+Netflix (S)
+Disney (S)
+HBO  (S)
+Spotify (S)
+Cannes (S)
+Banco Central Europeo (S)
+Adobe (S)
+Uber (S)
+Airbnb (S)
+Valencia CF (S)
+Universidad Complutense (S)
+IBM (S)
+Oracle (S)
+NASA (S)
+SpaceX (S)
+Senado (S)
+Hospital Gregorio Marañón (S)
+SAP (S)
+Cabify (S)
+Bolsa de Nueva York (S)
+
+
+Zara (S)
+Planeta (S)
+Guardia Civil (S)
+Congreso de España (S)
+Univerdidad de Oxford (S)
+Huawei (S)
+Selección Española (S)
+Museo Guggenheim (S)
+
+------MISC------
+
+
+Iphone 15 (S)
+-modelo- GPT (S)
+
+
+
+Galaxy S24 (S)
+Roland Garros (S)
+Mundial (S)
+Oscar (S)
+festival Primavera Sound
+Primavera Sound (S)
+-----------------------------
+
+Resultados:
+ABSOLUTO: 18 de 18 PER, 82 de 89 LOC, 61 de 67 ORG, 8 de 9 MISC. 169 DE 183 encontradas
+PARCIAL: 18 de 18 PER, 85 de 89 LOC, 61 de 67 ORG, 8 de 9 MISC. 172 DE 183 encontradas
+Falso positivo: 1 RESULTADO: 172 de 184 Predichas
+Fallos:
+
+
+------PER-------
+
+
+------LOC-------
+Estados Unidos (da ORG) x2
+Bernabéu (da ORG)
+
+
+------ORG-------
+Meta (la da como PER)
+Sanofi (la da como PER)
+Roche (la da como PER)
+Al Nassr (la da como PER)
+G20 (la da como MISC)
+Ferrari (la da como LOC)
+
+
+
+------MISC-------
+
+Windows 12 (da ORG)
+Falso positivo
+Falso positivos: IA (da ORG)
+

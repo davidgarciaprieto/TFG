@@ -1,12 +1,14 @@
-# requirements.txt — NER Filter App
-
+# ── Core ──────────────────────────────────────────────────────────────────────
 flask>=3.0.0
-spacy>=3.7.0
 
-# ── Modelos large (instalar con setup_venv.sh o manualmente) ──────────────────
-# python -m spacy download es_core_news_lg    ← español  large  ~500 MB  ✅ recomendado
-# python -m spacy download es_core_news_md    ← español  mediano
-# python -m spacy download es_core_news_sm    ← español  pequeño
-# python -m spacy download en_core_web_lg     ← inglés   large  ~560 MB  ✅ recomendado
-# python -m spacy download en_core_web_trf    ← inglés   transformer (más preciso, más lento)
-# python -m spacy download xx_ent_wiki_sm     ← multilingüe
+# ── Backend: spaCy (es_core_news_lg) ─────────────────────────────────────────
+spacy>=3.7.0
+# python -m spacy download es_core_news_lg
+
+# ── Backend: HuggingFace (BETO, SpanBERTa, XLM-RoBERTa) ─────────────────────
+transformers>=4.38.0
+torch>=2.0.0          # CPU; para GPU: pip install torch --index-url https://download.pytorch.org/whl/cu121
+
+# ── Backend: Stanza ───────────────────────────────────────────────────────────
+stanza>=1.7.0
+# python -c "import stanza; stanza.download('es')"
