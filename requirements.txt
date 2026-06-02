@@ -4,11 +4,9 @@ requests>=2.31.0
 
 # ── Backend: spaCy ────────────────────────────────────────────────────────────
 spacy>=3.7.0
-# Modelo descargado en el Dockerfile: es_core_news_lg
 
 # ── Backend: HuggingFace (BETO, SpanBERTa, XLM-RoBERTa) ─────────────────────
 transformers>=4.38.0
-torch>=2.0.0
 
 # ── Backend: Stanza ───────────────────────────────────────────────────────────
 stanza>=1.7.0
