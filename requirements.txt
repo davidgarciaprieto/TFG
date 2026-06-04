@@ -1,12 +1,6 @@
-# ── Core ──────────────────────────────────────────────────────────────────────
 flask>=3.0.0
 requests>=2.31.0
-
-# ── Backend: spaCy ────────────────────────────────────────────────────────────
 spacy>=3.7.0
-
-# ── Backend: HuggingFace (BETO, SpanBERTa, XLM-RoBERTa) ─────────────────────
+torch --index-url https://download.pytorch.org/whl/cpu
 transformers>=4.38.0
-
-# ── Backend: Stanza ───────────────────────────────────────────────────────────
 stanza>=1.7.0
