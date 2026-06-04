@@ -84,4 +84,4 @@ Requiere Python 3.10+ y ~8 GB de RAM para cargar todos los modelos.
 | XLM-RoBERTa | 0,929 | 0,647 |
 | **Combinado** | **≈ 0,955** | **0,865** |
 
-El pipeline de filtrado alcanza P = R = F₁ = 1,000 sobre el benchmark de 100 términos en 10 bloques temáticos. Resultado acotado a los patrones de ruido documentados.
+El pipeline de filtrado alcanza p = r = F₁ = 1,000 sobre el benchmark de 100 términos en 10 bloques temáticos. Resultado acotado a los patrones de ruido documentados.
