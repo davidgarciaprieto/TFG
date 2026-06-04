@@ -40,7 +40,7 @@ TFG/
 ├── entity_processor.py             # Preprocesamiento de entidades
 ├── templates/                      # Interfaz web (HTML5 + CSS + JS)
 ├── resultados benchmark aplicación/ # Resultados del benchmark propio 
-├── resultados benchmark online/    # Resultados del benchmark estadístico (TCL)
+├── resultados benchmark clásicos/    # Resultados del benchmark estadístico (TCL)
 ├── Dockerfile
 ├── docker-compose.yml
 └── requirements.txt
