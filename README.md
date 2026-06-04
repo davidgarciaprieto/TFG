@@ -39,7 +39,7 @@ TFG/
 ├── entity_linker.py                # Enlace a Wikipedia y DBpedia
 ├── entity_processor.py             # Preprocesamiento de entidades
 ├── templates/                      # Interfaz web (HTML5 + CSS + JS)
-├── resultados benchmark aplicación/ # Resultados del benchmark propio (70 frases)
+├── resultados benchmark aplicación/ # Resultados del benchmark propio 
 ├── resultados benchmark online/    # Resultados del benchmark estadístico (TCL)
 ├── Dockerfile
 ├── docker-compose.yml
